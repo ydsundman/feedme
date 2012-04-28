@@ -4,10 +4,20 @@ ShoppingListTest.prototype.setUp = function () {
 	/*:DOC += <div id="main"></div> */
 
 	ShoppingListTest.getJSON = function (url, fn) {
-		fn([
-			{_id:'1', name:'one' },
-			{_id:'2', name:'two' }
-		]);
+		var result;
+		if (url === 'lists') {
+			result = [
+				{_id:'1', name:'one' },
+				{_id:'2', name:'two' }
+			];
+		} else {
+			result =
+			{_id:'1', name:"one", items:[
+				{name:"milk"},
+				{name:"bread"}
+			]};
+		}
+		fn(result);
 	};
 };
 
@@ -23,6 +33,19 @@ ShoppingListTest.prototype.testGetShoppingList = function () {
 	assertEquals('two', $('#shopping-lists li:last').text());
 };
 
+ShoppingListTest.prototype.testGetShoppingListItems = function () {
+
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	$('<div/>', {
+		id:'selected-shopping-list'
+	}).appendTo('#main');
+
+	yds.renderShoppingListItems('1');
+	assertEquals(1, $('#shopping-list-items').length);
+	assertEquals('milk', $('#shopping-list-items li:first').text());
+	assertEquals('bread', $('#shopping-list-items li:last').text());
+};
+
 ShoppingListTest.prototype.test_buildListItem = function () {
 	assertEquals('function', typeof yds._buildListItem);
 	assertEquals(2, yds._buildListItem.length);
@@ -33,7 +56,7 @@ ShoppingListTest.prototype.test_buildListItem = function () {
 };
 
 ShoppingListTest.prototype.testRenderAddListButton = function () {
-	var clicked = false, callback = function() {
+	var clicked = false, callback = function () {
 		clicked = true;
 	};
 
@@ -46,11 +69,11 @@ ShoppingListTest.prototype.testRenderAddListButton = function () {
 };
 
 ShoppingListTest.prototype.testRenderAddItemButton = function () {
-	var clicked = false, callback = function() {
+	var clicked = false, callback = function () {
 		clicked = true;
 	};
 
-	$('<div/>',{
+	$('<div/>', {
 		id:'selected-shopping-list'
 	}).appendTo('#main');
 
@@ -105,11 +128,11 @@ ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
 	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
-	assertEquals('one', $('#selected-shopping-list').html().substring(0,3));
+	assertEquals('one', $('#selected-shopping-list').html().substring(0, 3));
 	$('#shopping-lists li:last').click();
 	assertEquals(1, $('#main #selected-shopping-list').length);
 	assertEquals(2, $('#main #selected-shopping-list').attr('shopping-list-id'));
-	assertEquals('two', $('#selected-shopping-list').html().substring(0,3));
+	assertEquals('two', $('#selected-shopping-list').html().substring(0, 3));
 };
 
 ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
@@ -118,8 +141,8 @@ ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = f
 
 	$('#shopping-lists li:first').click();
 	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
-	assertEquals('one', $('#selected-shopping-list').html().substring(0,3));
+	assertEquals('one', $('#selected-shopping-list').html().substring(0, 3));
 
 	$('#shopping-lists li:first').click();
-	assertEquals('one', $('#selected-shopping-list').html().substring(0,3));
+	assertEquals('one', $('#selected-shopping-list').html().substring(0, 3));
 };

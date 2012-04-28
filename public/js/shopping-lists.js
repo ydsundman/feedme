@@ -2,16 +2,16 @@ var yds = yds || {};
 
 yds.jq = $;
 
-yds._buildListItem = function(id, name) {
+yds._buildListItem = function (id, name) {
 	return $('<li/>', {
-		id: id,
-		html: name
+		id:id,
+		html:name
 	});
 };
 
-yds.getShoppingLists = function() {
+yds.getShoppingLists = function () {
 
-	var renderShoppingList = function(targetLi) {
+	var renderShoppingList = function (targetLi) {
 		var div = $('#selected-shopping-list'), li = $(targetLi), id = li.attr('id');
 		if (div && div.attr('shopping-list-id') !== id) {
 			div.remove();
@@ -20,62 +20,77 @@ yds.getShoppingLists = function() {
 				'shopping-list-id':id
 			}).html(li.html()).appendTo("#main");
 			yds.renderAddItem();
+			yds.renderShoppingListItems(id);
 		}
 	};
 
-	yds.jq.getJSON('lists', function(data) {
+	var processListItems = function (data) {
+		$.each(data, function (key, val) {
+			yds._buildListItem(val._id, val.name).appendTo('#shopping-lists');
+		});
+	};
+
+	yds._renderList('#main', 'shopping-lists', 'lists', renderShoppingList, processListItems);
+};
+
+yds.renderShoppingListItems = function (shoppingListId) {
+	var processListItems = function (data) {
+		$.each(data.items, function (key, item) {
+			$('<li/>', {
+				html:item.name
+			}).appendTo('#shopping-list-items');
+		});
+	};
+	yds._renderList("#selected-shopping-list", "shopping-list-items", 'lists/' + shoppingListId, function () {
+	}, processListItems);
+};
+
+yds._renderList = function (parentElementSelector, listId, url, onClickFunction, processListItems) {
+	yds.jq.getJSON(url, function (data) {
 
 		$('<ul/>', {
-			id:'shopping-lists'
+			id:listId
 		}).click(
 			function (e) {
 				if ($(e.target).is('li')) {
-					renderShoppingList(e.target);
+					onClickFunction(e.target);
 				}
-			}).appendTo('#main');
+			}).appendTo(parentElementSelector);
 
-		$.each(data, function(key, val) {
-			yds._buildListItem(val._id, val.name).appendTo('#shopping-lists');
-		});
-
+		processListItems(data);
 	});
 };
 
-yds.renderAddList = function() {
-	var fn = function() {
+yds.renderAddList = function () {
+	var fn = function () {
 		var name = $('#main input[type="text"]').val();
-		yds.jq.post('lists', {name:name}, function(data){
+		yds.jq.post('lists', {name:name}, function (data) {
 			$('#main input[type="text"]').val('');
 			yds._buildListItem(data._id, data.name).appendTo('#shopping-lists');
 		});
 	};
-
-	$('<input/>', {
-		type: 'text',
-		name: 'list-name'
-	}).appendTo('#main');
-	$('<input/>', {
-		type: 'button',
-		value: 'Add'
-	}).click(fn).appendTo('#main');
+	yds._renderInputArea('#main', fn);
 };
 
-yds.renderAddItem = function() {
-	var fn = function() {
-		var name = $('#selected-shopping-list input[type="text"]').val();
+yds.renderAddItem = function () {
+	var fn = function () {
+//		var name = $('#selected-shopping-list input[type="text"]').val();
 //		yds.jq.post('lists', {name:name}, function(data){
 //			$('#selected-shopping-list input[type="text"]').val('');
 //			yds._buildListItem(data._id, data.name).appendTo('#shopping-list-items');
 //		});
 	};
 
-	$('<input/>', {
-		type: 'text',
-		name: 'list-name'
-	}).appendTo('#selected-shopping-list');
-	$('<input/>', {
-		type: 'button',
-		value: 'Add'
-	}).click(fn).appendTo('#selected-shopping-list');
+	yds._renderInputArea('#selected-shopping-list', fn);
 };
 
+yds._renderInputArea = function (parentElementSelector, fn) {
+	$('<input/>', {
+		type:'text',
+		name:'list-name'
+	}).appendTo(parentElementSelector);
+	$('<input/>', {
+		type:'button',
+		value:'Add'
+	}).click(fn).appendTo(parentElementSelector);
+};
