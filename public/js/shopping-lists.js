@@ -5,24 +5,19 @@ yds.jq = $;
 yds._buildListItem = function(id, name) {
 	return $('<li/>', {
 		id: id,
-		'class': 'ui-state-default'
-	}).append('<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + name);
+		html: name
+	});
 };
 
 yds.getShoppingLists = function() {
 	yds.jq.getJSON('lists', function(data) {
 
 		$('<ul/>', {
-			id: 'shopping-lists',
-			'class': 'sortable'
+			id: 'shopping-lists'
 		}).appendTo('#main');
 
 		$.each(data, function(key, val) {
 			yds._buildListItem(val._id, val.name).appendTo('#shopping-lists');
-		});
-		$(function () {
-			yds.jq('.sortable').sortable();
-			yds.jq('.sortable').disableSelection();
 		});
 	});
 };
@@ -33,10 +28,6 @@ yds.renderAddList = function() {
 		yds.jq.post('lists', {name:name}, function(data){
 			$('#main input[type="text"]').val('');
 			yds._buildListItem(data._id, data.name).appendTo('#shopping-lists');
-			$(function () {
-				yds.jq('.sortable').sortable();
-				yds.jq('.sortable').disableSelection();
-			});
 		});
 	};
 

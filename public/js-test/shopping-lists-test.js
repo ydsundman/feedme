@@ -2,9 +2,6 @@ ShoppingListTest = TestCase("ShoppingListTest");
 
 ShoppingListTest.prototype.setUp = function () {
 	/*:DOC += <div id="main"></div> */
-	yds.jq = function () {
-		return {sortable:function () {}, disableSelection: function() {}};
-	};
 };
 
 ShoppingListTest.prototype.testGetShoppingList = function () {
@@ -22,10 +19,6 @@ ShoppingListTest.prototype.testGetShoppingList = function () {
 	assertEquals('one', $('#shopping-lists li:first').text());
 	assertEquals('2', $('#shopping-lists li:last').attr('id'));
 	assertEquals('two', $('#shopping-lists li:last').text());
-
-	assertTrue($('#shopping-lists').hasClass('sortable'));
-	assertTrue($('#shopping-lists li:first').hasClass('ui-state-default'));
-
 };
 
 ShoppingListTest.prototype.test_buildListItem = function () {
@@ -34,10 +27,7 @@ ShoppingListTest.prototype.test_buildListItem = function () {
 	var li = yds._buildListItem('1234', 'xxx');
 	assertEquals('1234', $(li).attr('id'));
 	assertEquals('xxx', $(li).text());
-	assertTrue($(li).hasClass('ui-state-default'));
-	assertEquals('<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>xxx', $(li).html());
-	assertTrue($(li).children('span:first').hasClass('ui-icon'));
-	assertTrue($(li).children('span:first').hasClass('ui-icon-arrowthick-2-n-s'));
+	assertEquals('xxx', $(li).html());
 };
 
 ShoppingListTest.prototype.testRenderAddListButton = function () {
