@@ -105,9 +105,11 @@ ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
 	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
+	assertEquals('one', $('#selected-shopping-list').html().substring(0,3));
 	$('#shopping-lists li:last').click();
 	assertEquals(1, $('#main #selected-shopping-list').length);
 	assertEquals(2, $('#main #selected-shopping-list').attr('shopping-list-id'));
+	assertEquals('two', $('#selected-shopping-list').html().substring(0,3));
 };
 
 ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
@@ -116,9 +118,8 @@ ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = f
 
 	$('#shopping-lists li:first').click();
 	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
-
-	$('#selected-shopping-list').html('XXX');
+	assertEquals('one', $('#selected-shopping-list').html().substring(0,3));
 
 	$('#shopping-lists li:first').click();
-	assertEquals('XXX', $('#selected-shopping-list').html());
+	assertEquals('one', $('#selected-shopping-list').html().substring(0,3));
 };

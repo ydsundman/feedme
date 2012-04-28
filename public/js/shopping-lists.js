@@ -11,14 +11,14 @@ yds._buildListItem = function(id, name) {
 
 yds.getShoppingLists = function() {
 
-	var renderShoppingList = function(id) {
-		var div = $('#selected-shopping-list');
+	var renderShoppingList = function(targetLi) {
+		var div = $('#selected-shopping-list'), li = $(targetLi), id = li.attr('id');
 		if (div && div.attr('shopping-list-id') !== id) {
 			div.remove();
 			$('<div/>', {
 				id:'selected-shopping-list',
 				'shopping-list-id':id
-			}).appendTo("#main");
+			}).html(li.html()).appendTo("#main");
 			yds.renderAddItem();
 		}
 	};
@@ -30,7 +30,7 @@ yds.getShoppingLists = function() {
 		}).click(
 			function (e) {
 				if ($(e.target).is('li')) {
-					renderShoppingList(e.target.id);
+					renderShoppingList(e.target);
 				}
 			}).appendTo('#main');
 
