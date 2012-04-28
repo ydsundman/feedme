@@ -74,11 +74,11 @@ yds.renderAddList = function () {
 
 yds.renderAddItem = function(f) {
 	var fn = f || function () {
-//		var name = $('#selected-shopping-list input[type="text"]').val();
-//		yds.jq.post('lists', {name:name}, function(data){
-//			$('#selected-shopping-list input[type="text"]').val('');
-//			yds._buildListItem(data._id, data.name).appendTo('#shopping-list-items');
-//		});
+		var name = $('#selected-shopping-list input[type="text"]').val();
+		$('#selected-shopping-list input[type="text"]').val('');
+		$('<li/>', {
+			html:name
+		}).appendTo('#shopping-list-items');
 	};
 
 	yds._renderInputArea('#selected-shopping-list', fn);

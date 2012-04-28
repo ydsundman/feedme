@@ -89,6 +89,18 @@ ShoppingListTest.prototype.testRenderAddItemButton = function () {
 
 };
 
+ShoppingListTest.prototype.testAddAListItem = function () {
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	yds.getShoppingLists();
+	$('#shopping-lists li:first').click();
+
+	$('#selected-shopping-list input[type="text"]').val('new item');
+	$('#selected-shopping-list input[type="button"]').click();
+	assertEquals('', $('#selected-shopping-list input[type="text"]').val());
+	assertEquals(3, $('#shopping-list-items li').length);
+	assertEquals('new item', $('#shopping-list-items li:last').text());
+};
+
 ShoppingListTest.prototype.testAddAList = function () {
 	/*:DOC main += <ul id="shopping-lists"><li id="1">one</li></ul> */
 
