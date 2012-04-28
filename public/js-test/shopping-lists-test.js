@@ -73,24 +73,24 @@ ShoppingListTest.prototype.testNoItemListDivShouldBeCreatedForClickOnUl = functi
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists').click();
-	assertEquals(0, $('#shopping-list-items').length);
+	assertEquals(0, $('#selected-shopping-list').length);
 };
 
 ShoppingListTest.prototype.testAnItemListDivShouldBeCreatedOnAnLiClick = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
-	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
 };
 
 ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
-	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
 	$('#shopping-lists li:last').click();
-	assertEquals(1, $('#main #shopping-list-items').length);
-	assertEquals(2, $('#main #shopping-list-items').attr('shopping-list-id'));
+	assertEquals(1, $('#main #selected-shopping-list').length);
+	assertEquals(2, $('#main #selected-shopping-list').attr('shopping-list-id'));
 };
 
 ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
@@ -98,11 +98,11 @@ ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = f
 	yds.getShoppingLists();
 
 	$('#shopping-lists li:first').click();
-	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
 
-	assertEquals('', $('#shopping-list-items').html());
-	$('#shopping-list-items').html('XXX');
+	assertEquals('', $('#selected-shopping-list').html());
+	$('#selected-shopping-list').html('XXX');
 
 	$('#shopping-lists li:first').click();
-	assertEquals('XXX', $('#shopping-list-items').html());
+	assertEquals('XXX', $('#selected-shopping-list').html());
 };
