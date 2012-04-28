@@ -10,15 +10,33 @@ yds._buildListItem = function(id, name) {
 };
 
 yds.getShoppingLists = function() {
+
+	var renderShoppingList = function(id) {
+		var div = $('#shopping-list-items');
+		if (div && div.attr('shopping-list-id') !== id) {
+			div.remove();
+			$('<div/>', {
+				id:'shopping-list-items',
+				'shopping-list-id':id
+			}).appendTo("#main");
+		}
+	};
+
 	yds.jq.getJSON('lists', function(data) {
 
 		$('<ul/>', {
-			id: 'shopping-lists'
-		}).appendTo('#main');
+			id:'shopping-lists'
+		}).click(
+			function (e) {
+				if ($(e.target).is('li')) {
+					renderShoppingList(e.target.id);
+				}
+			}).appendTo('#main');
 
 		$.each(data, function(key, val) {
 			yds._buildListItem(val._id, val.name).appendTo('#shopping-lists');
 		});
+
 	});
 };
 

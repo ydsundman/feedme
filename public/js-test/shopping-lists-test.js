@@ -2,16 +2,18 @@ ShoppingListTest = TestCase("ShoppingListTest");
 
 ShoppingListTest.prototype.setUp = function () {
 	/*:DOC += <div id="main"></div> */
-};
 
-ShoppingListTest.prototype.testGetShoppingList = function () {
-	var getJSON = function (url, fn) {
+	ShoppingListTest.getJSON = function (url, fn) {
 		fn([
 			{_id:'1', name:'one' },
 			{_id:'2', name:'two' }
 		]);
 	};
-	yds.jq.getJSON = getJSON;
+};
+
+ShoppingListTest.prototype.testGetShoppingList = function () {
+
+	yds.jq.getJSON = ShoppingListTest.getJSON;
 
 	yds.getShoppingLists();
 	assertEquals(1, $('#shopping-lists').length);
@@ -50,12 +52,12 @@ ShoppingListTest.prototype.testAddAList = function () {
 
 	$('#main input[type="text"]').val('newlistname');
 
-	var urlPassed, dataPassed, post = function (url, data, success) {
+	var urlPassed, dataPassed;
+	yds.jq.post = function (url, data, success) {
 		urlPassed = url;
 		dataPassed = data;
 		success({_id:'1234', name:'newlistname' });
 	};
-	yds.jq.post = post;
 
 	$('#main input[type="button"]').click();
 
@@ -65,4 +67,42 @@ ShoppingListTest.prototype.testAddAList = function () {
 	assertEquals(2, $('#shopping-lists li').length);
 	assertEquals('1234', $('#shopping-lists li:last').attr('id'));
 	assertEquals('newlistname', $('#shopping-lists li:last').text());
+};
+
+ShoppingListTest.prototype.testNoItemListDivShouldBeCreatedForClickOnUl = function () {
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	yds.getShoppingLists();
+	$('#shopping-lists').click();
+	assertEquals(0, $('#shopping-list-items').length);
+};
+
+ShoppingListTest.prototype.testAnItemListDivShouldBeCreatedOnAnLiClick = function () {
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	yds.getShoppingLists();
+	$('#shopping-lists li:first').click();
+	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+};
+
+ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv = function () {
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	yds.getShoppingLists();
+	$('#shopping-lists li:first').click();
+	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+	$('#shopping-lists li:last').click();
+	assertEquals(1, $('#main #shopping-list-items').length);
+	assertEquals(2, $('#main #shopping-list-items').attr('shopping-list-id'));
+};
+
+ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	yds.getShoppingLists();
+
+	$('#shopping-lists li:first').click();
+	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+
+	assertEquals('', $('#shopping-list-items').html());
+	$('#shopping-list-items').html('XXX');
+
+	$('#shopping-lists li:first').click();
+	assertEquals('XXX', $('#shopping-list-items').html());
 };
