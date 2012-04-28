@@ -45,6 +45,23 @@ ShoppingListTest.prototype.testRenderAddListButton = function () {
 	assertEquals('list-name', $('#main input[type="text"]').attr('name'));
 };
 
+ShoppingListTest.prototype.testRenderAddItemButton = function () {
+	var clicked = false, callback = function() {
+		clicked = true;
+	};
+
+	$('<div/>',{
+		id:'selected-shopping-list'
+	}).appendTo('#main');
+
+	yds.renderAddItem(callback);
+
+	assertEquals(1, $('#selected-shopping-list input[type="button"]').length);
+	assertEquals('Add', $('#selected-shopping-list input[type="button"]').attr('value'));
+	assertEquals(1, $('#selected-shopping-list input[type="text"]').length);
+	assertEquals('list-name', $('#selected-shopping-list input[type="text"]').attr('name'));
+};
+
 ShoppingListTest.prototype.testAddAList = function () {
 	/*:DOC main += <ul id="shopping-lists"><li id="1">one</li></ul> */
 
@@ -100,7 +117,6 @@ ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = f
 	$('#shopping-lists li:first').click();
 	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
 
-	assertEquals('', $('#selected-shopping-list').html());
 	$('#selected-shopping-list').html('XXX');
 
 	$('#shopping-lists li:first').click();

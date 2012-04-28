@@ -19,6 +19,7 @@ yds.getShoppingLists = function() {
 				id:'selected-shopping-list',
 				'shopping-list-id':id
 			}).appendTo("#main");
+			yds.renderAddItem();
 		}
 	};
 
@@ -57,6 +58,24 @@ yds.renderAddList = function() {
 		type: 'button',
 		value: 'Add'
 	}).click(fn).appendTo('#main');
+};
 
+yds.renderAddItem = function() {
+	var fn = function() {
+		var name = $('#selected-shopping-list input[type="text"]').val();
+//		yds.jq.post('lists', {name:name}, function(data){
+//			$('#selected-shopping-list input[type="text"]').val('');
+//			yds._buildListItem(data._id, data.name).appendTo('#shopping-list-items');
+//		});
+	};
+
+	$('<input/>', {
+		type: 'text',
+		name: 'list-name'
+	}).appendTo('#selected-shopping-list');
+	$('<input/>', {
+		type: 'button',
+		value: 'Add'
+	}).click(fn).appendTo('#selected-shopping-list');
 };
 
