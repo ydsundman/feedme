@@ -12,11 +12,11 @@ yds._buildListItem = function(id, name) {
 yds.getShoppingLists = function() {
 
 	var renderShoppingList = function(targetLi) {
-		var div = $('#shopping-list-items'), li = $(targetLi), id = li.attr('id');
+		var div = $('#selected-shopping-list'), li = $(targetLi), id = li.attr('id');
 		if (div && div.attr('shopping-list-id') !== id) {
 			div.remove();
 			$('<div/>', {
-				id:'shopping-list-items',
+				id:'selected-shopping-list',
 				'shopping-list-id':id
 			}).html(li.html()).appendTo("#main");
 		}

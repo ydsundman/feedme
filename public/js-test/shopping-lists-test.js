@@ -73,26 +73,26 @@ ShoppingListTest.prototype.testNoItemListDivShouldBeCreatedForClickOnUl = functi
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists').click();
-	assertEquals(0, $('#shopping-list-items').length);
+	assertEquals(0, $('#selected-shopping-list').length);
 };
 
 ShoppingListTest.prototype.testAnItemListDivShouldBeCreatedOnAnLiClick = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
-	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
+	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
 };
 
 ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
-	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
-	assertEquals('one', $('#shopping-list-items').html());
+	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
+	assertEquals('one', $('#selected-shopping-list').html());
 	$('#shopping-lists li:last').click();
-	assertEquals(1, $('#main #shopping-list-items').length);
-	assertEquals(2, $('#main #shopping-list-items').attr('shopping-list-id'));
-	assertEquals('two', $('#shopping-list-items').html());
+	assertEquals(1, $('#main #selected-shopping-list').length);
+	assertEquals(2, $('#main #selected-shopping-list').attr('shopping-list-id'));
+	assertEquals('two', $('#selected-shopping-list').html());
 };
 
 ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
@@ -100,9 +100,9 @@ ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = f
 	yds.getShoppingLists();
 
 	$('#shopping-lists li:first').click();
-	assertEquals(1, $('#main #shopping-list-items').attr('shopping-list-id'));
-	assertEquals('one', $('#shopping-list-items').html());
+	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
+	assertEquals('one', $('#selected-shopping-list').html());
 
 	$('#shopping-lists li:first').click();
-	assertEquals('one', $('#shopping-list-items').html());
+	assertEquals('one', $('#selected-shopping-list').html());
 };
