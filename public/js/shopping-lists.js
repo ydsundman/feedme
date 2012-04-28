@@ -72,8 +72,8 @@ yds.renderAddList = function () {
 	yds._renderInputArea('#main', fn);
 };
 
-yds.renderAddItem = function () {
-	var fn = function () {
+yds.renderAddItem = function(f) {
+	var fn = f || function () {
 //		var name = $('#selected-shopping-list input[type="text"]').val();
 //		yds.jq.post('lists', {name:name}, function(data){
 //			$('#selected-shopping-list input[type="text"]').val('');

@@ -83,6 +83,10 @@ ShoppingListTest.prototype.testRenderAddItemButton = function () {
 	assertEquals('Add', $('#selected-shopping-list input[type="button"]').attr('value'));
 	assertEquals(1, $('#selected-shopping-list input[type="text"]').length);
 	assertEquals('list-name', $('#selected-shopping-list input[type="text"]').attr('name'));
+
+	$('#selected-shopping-list input[type="button"]').click();
+	assertTrue(clicked);
+
 };
 
 ShoppingListTest.prototype.testAddAList = function () {
