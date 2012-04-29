@@ -79,9 +79,20 @@ yds.renderAddItem = function(f) {
 		$('<li/>', {
 			html:name
 		}).appendTo('#shopping-list-items');
+		yds.saveShoppingList();
 	};
 
 	yds._renderInputArea('#selected-shopping-list', fn);
+};
+
+yds.saveShoppingList = function() {
+	var id = $('#selected-shopping-list').attr('shopping-list-id'),
+		name = $('#' + id).text(),
+		items = [];
+	$('#shopping-list-items li').each(function(index, item) {
+		items.push({name: $(item).text()});
+	});
+	yds.jq.ajax({headers: {'Content-type': 'application/json'}, url: 'lists/' + id, type:'PUT', data:JSON.stringify({_id:id, name:name, items: items})});
 };
 
 yds._renderInputArea = function (parentElementSelector, fn) {

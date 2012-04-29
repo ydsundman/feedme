@@ -19,7 +19,12 @@ ShoppingListTest.prototype.setUp = function () {
 		}
 		fn(result);
 	};
+	ShoppingListTest.saveShoppingList = yds.saveShoppingList;
 };
+
+ShoppingListTest.prototype.tearDown = function () {
+	yds.saveShoppingList = ShoppingListTest.saveShoppingList;
+}
 
 ShoppingListTest.prototype.testGetShoppingList = function () {
 
@@ -90,15 +95,21 @@ ShoppingListTest.prototype.testRenderAddItemButton = function () {
 };
 
 ShoppingListTest.prototype.testAddAListItem = function () {
+	var saveShoppingListCalled = false;
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
+
+	yds.saveShoppingList = function() {
+		saveShoppingListCalled = true;
+	}
 
 	$('#selected-shopping-list input[type="text"]').val('new item');
 	$('#selected-shopping-list input[type="button"]').click();
 	assertEquals('', $('#selected-shopping-list input[type="text"]').val());
 	assertEquals(3, $('#shopping-list-items li').length);
 	assertEquals('new item', $('#shopping-list-items li:last').text());
+	assertTrue(saveShoppingListCalled);
 };
 
 ShoppingListTest.prototype.testAddAList = function () {
@@ -162,3 +173,29 @@ ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = f
 	$('#shopping-lists li:first').click();
 	assertEquals('one', $('#selected-shopping-list').html().substring(0, 3));
 };
+
+ShoppingListTest.prototype.testSaveShoppingListShouldCollectItemsFromMarkupAndPost = function () {
+	/*:DOC
+		main += <ul id="shopping-lists">
+					<li id="1">one</li>
+				</ul>
+				<div id="selected-shopping-list" shopping-list-id="1">
+					<ul id="shopping-list-items">
+						<li>xxx</li>
+	                    <li>yyy</li>
+	                <ul>
+				</div>
+	*/
+
+	var optionsPassed;
+	yds.jq.ajax = function(options) {
+		optionsPassed = options;
+	};
+	yds.saveShoppingList();
+
+	assertEquals({'Content-type':'application/json'}, optionsPassed.headers);
+	assertEquals('lists/1', optionsPassed.url);
+	assertEquals('PUT', optionsPassed.type);
+	assertEquals(JSON.stringify({_id:'1', name:'one', items:[{name:'xxx'}, {name:'yyy'}]}), optionsPassed.data);
+};
+
