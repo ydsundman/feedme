@@ -24,7 +24,7 @@ ShoppingListTest.prototype.setUp = function () {
 
 ShoppingListTest.prototype.tearDown = function () {
 	yds.saveShoppingList = ShoppingListTest.saveShoppingList;
-}
+};
 
 ShoppingListTest.prototype.testGetShoppingList = function () {
 
@@ -52,7 +52,7 @@ ShoppingListTest.prototype.testGetShoppingListItems = function () {
 };
 
 ShoppingListTest.prototype.test_buildListItem = function () {
-	assertEquals('function', typeof yds._buildListItem);
+	assertFunction(yds._buildListItem);
 	assertEquals(2, yds._buildListItem.length);
 	var li = yds._buildListItem('1234', 'xxx');
 	assertEquals('1234', $(li).attr('id'));
@@ -102,7 +102,7 @@ ShoppingListTest.prototype.testAddAListItem = function () {
 
 	yds.saveShoppingList = function() {
 		saveShoppingListCalled = true;
-	}
+	};
 
 	$('#selected-shopping-list input[type="text"]').val('new item');
 	$('#selected-shopping-list input[type="button"]').click();
