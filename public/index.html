@@ -57,8 +57,14 @@
         <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
       </div>
 
-	    <div id="main" role="main">
-	    </div>
+	    <!-- Shopping List Stuff -->
+
+	    <div class="row">
+		    <div id="main" class="span4"></div>
+		    <div id="main2" class="span4"></div>
+		</div>
+
+	    <!-- End Shopping List Stuff -->
 
 	    <!-- Example row of columns -->
       <div class="row">
@@ -86,11 +92,13 @@
       </footer>
 
     </div> <!-- /container -->
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
+<script src="js/libs/jsrender.js"></script>
 <script src="js/script.js"></script>
 <script src="js/shopping-lists.js"></script>
 <script>
@@ -99,6 +107,20 @@
 	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
 	s.parentNode.insertBefore(g,s)}(document,'script'));
 </script>
+<script id="slItemTmpl" type="text/x-jsrender">
+	<li>{{:name}}</li>
+</script>
+<script id="slTmpl" type="text/x-jsrender">
+	<div id="selected-shopping-list" shopping-list-id="{{:_id}}">
+		{{:name}}
+		<input type="text" name="item-name">
+		<input type="button" value="Add" class="btn btn-primary actionAddItem">
+		<ul id="shopping-list-items">
+			{{for items tmpl="#slItemTmpl"/}}
+		</ul>
+	</div>
+</script>
+
 
 </body>
 </html>

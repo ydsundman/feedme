@@ -1,7 +1,21 @@
 ShoppingListTest = TestCase("ShoppingListTest");
 
 ShoppingListTest.prototype.setUp = function () {
-	/*:DOC += <div id="main"></div> */
+	/*:DOC += 	<div id="main"></div>
+	            <div id="main2"></div>
+	            <script id="slTmpl" type="text/x-jsrender">
+					<div id="selected-shopping-list" shopping-list-id="{{:_id}}">
+						{{:name}}
+						<input type="text" name="item-name">
+	                    <input type="button" value="Add" class="actionAddItem">
+	                    <ul id="shopping-list-items">
+		                    {{for items}}
+								<li>{{:name}}</li>
+	                        {{/for}}
+						</ul>
+	                </div>
+				</script>
+	 */
 
 	ShoppingListTest.getJSON = function (url, fn) {
 		var result;
@@ -38,18 +52,18 @@ ShoppingListTest.prototype.testGetShoppingList = function () {
 	assertEquals('two', $('#shopping-lists li:last').text());
 };
 
-ShoppingListTest.prototype.testGetShoppingListItems = function () {
-
-	yds.jq.getJSON = ShoppingListTest.getJSON;
-	$('<div/>', {
-		id:'selected-shopping-list'
-	}).appendTo('#main');
-
-	yds.renderShoppingListItems('1');
-	assertEquals(1, $('#shopping-list-items').length);
-	assertEquals('milk', $('#shopping-list-items li:first').text());
-	assertEquals('bread', $('#shopping-list-items li:last').text());
-};
+//ShoppingListTest.prototype.testGetShoppingListItems = function () {
+//
+//	yds.jq.getJSON = ShoppingListTest.getJSON;
+//	$('<div/>', {
+//		id:'selected-shopping-list'
+//	}).appendTo('#main');
+//
+//	//yds.renderShoppingListItems('1');
+//	assertEquals(1, $('#shopping-list-items').length);
+//	assertEquals('milk', $('#shopping-list-items li:first').text());
+//	assertEquals('bread', $('#shopping-list-items li:last').text());
+//};
 
 ShoppingListTest.prototype.test_buildListItem = function () {
 	assertFunction(yds._buildListItem);
@@ -73,28 +87,28 @@ ShoppingListTest.prototype.testRenderAddListButton = function () {
 	assertEquals('list-name', $('#main input[type="text"]').attr('name'));
 };
 
-ShoppingListTest.prototype.testRenderAddItemButton = function () {
-	var clicked = false, callback = function () {
-		clicked = true;
-	};
+//ShoppingListTest.prototype.testRenderAddItemButton = function () {
+//	var clicked = false, callback = function () {
+//		clicked = true;
+//	};
+//
+//	$('<div/>', {
+//		id:'selected-shopping-list'
+//	}).appendTo('#main');
+//
+//	yds.renderAddItem(callback);
+//
+//	assertEquals(1, $('#selected-shopping-list input[type="button"]').length);
+//	assertEquals('Add', $('#selected-shopping-list input[type="button"]').attr('value'));
+//	assertEquals(1, $('#selected-shopping-list input[type="text"]').length);
+//	assertEquals('list-name', $('#selected-shopping-list input[type="text"]').attr('name'));
+//
+//	$('#selected-shopping-list input[type="button"]').click();
+//	assertTrue(clicked);
+//
+//};
 
-	$('<div/>', {
-		id:'selected-shopping-list'
-	}).appendTo('#main');
-
-	yds.renderAddItem(callback);
-
-	assertEquals(1, $('#selected-shopping-list input[type="button"]').length);
-	assertEquals('Add', $('#selected-shopping-list input[type="button"]').attr('value'));
-	assertEquals(1, $('#selected-shopping-list input[type="text"]').length);
-	assertEquals('list-name', $('#selected-shopping-list input[type="text"]').attr('name'));
-
-	$('#selected-shopping-list input[type="button"]').click();
-	assertTrue(clicked);
-
-};
-
-ShoppingListTest.prototype.testAddAListItem = function () {
+ShoppingListTest.prototype.oldTestAddAListItem = function () {
 	var saveShoppingListCalled = false;
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
@@ -136,21 +150,21 @@ ShoppingListTest.prototype.testAddAList = function () {
 	assertEquals('newlistname', $('#shopping-lists li:last').text());
 };
 
-ShoppingListTest.prototype.testNoItemListDivShouldBeCreatedForClickOnUl = function () {
-	yds.jq.getJSON = ShoppingListTest.getJSON;
-	yds.getShoppingLists();
-	$('#shopping-lists').click();
-	assertEquals(0, $('#selected-shopping-list').length);
-};
+//ShoppingListTest.prototype.testNoItemListDivShouldBeCreatedForClickOnUl = function () {
+//	yds.jq.getJSON = ShoppingListTest.getJSON;
+//	yds.getShoppingLists();
+//	$('#shopping-lists').click();
+//	assertEquals(0, $('#selected-shopping-list').length);
+//};
 
-ShoppingListTest.prototype.testAnItemListDivShouldBeCreatedOnAnLiClick = function () {
+ShoppingListTest.prototype.oldtestAnItemListDivShouldBeCreatedOnAnLiClick = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
 	assertEquals(1, $('#main #selected-shopping-list').attr('shopping-list-id'));
 };
 
-ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv = function () {
+ShoppingListTest.prototype.oldTestClickingOnAnotherLiShouldOnlyChangeTheListItemDiv = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 	$('#shopping-lists li:first').click();
@@ -162,7 +176,7 @@ ShoppingListTest.prototype.testClickingOnAnotherLiShouldOnlyChangeTheListItemDiv
 	assertEquals('two', $('#selected-shopping-list').html().substring(0, 3));
 };
 
-ShoppingListTest.prototype.testClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
+ShoppingListTest.prototype.oldTestClickingOnTheLiAlreadySelectedShouldDoNothing = function () {
 	yds.jq.getJSON = ShoppingListTest.getJSON;
 	yds.getShoppingLists();
 
@@ -199,3 +213,23 @@ ShoppingListTest.prototype.testSaveShoppingListShouldCollectItemsFromMarkupAndPo
 	assertEquals(JSON.stringify({_id:'1', name:'one', items:[{name:'xxx'}, {name:'yyy'}]}), optionsPassed.data);
 };
 
+ShoppingListTest.prototype.testLoadShoppingList = function () {
+	yds.jq.getJSON = ShoppingListTest.getJSON;
+	yds.loadShoppingList("list/123", function(sl) {
+		assertEquals(1, sl._id);
+	});
+};
+
+ShoppingListTest.prototype.testRenderShoppingList = function () {
+	var sl = {_id:"1",name:"xxx",items:[{name:"item 1",_id:"11"}, {name:"item 2",_id:"22"}]};
+	yds.renderShoppingList2(sl);
+
+	assertEquals(1, $('#selected-shopping-list input[type="button"]').length);
+	assertEquals('Add', $('#selected-shopping-list input[type="button"]').attr('value'));
+	assertEquals(1, $('#selected-shopping-list input[type="text"]').length);
+	assertEquals('item-name', $('#selected-shopping-list input[type="text"]').attr('name'));
+
+	$('#selected-shopping-list .actionAddItem').click();
+//	assertTrue(clicked);
+
+};

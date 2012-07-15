@@ -2,6 +2,24 @@ var yds = yds || {};
 
 yds.jq = $;
 
+// Event handlers
+yds.handleListClick = function(event) {
+	var li = $(event.target), id = li.attr('id');
+	event.preventDefault();
+	event.stopPropagation();
+	yds.loadList(id);
+};
+
+yds.handleAddListItemClick = function(event) {
+	var itemName = $('#main2 input[type="text"]').val();
+	event.preventDefault();
+	event.stopPropagation();
+	if (itemName) {
+		yds.addItem(itemName);
+	}
+	$('#main2 input[type="text"]').val('');
+};
+
 yds._buildListItem = function (id, name) {
 	return $('<li/>', {
 		id:id,
@@ -12,16 +30,13 @@ yds._buildListItem = function (id, name) {
 yds.getShoppingLists = function () {
 
 	var renderShoppingList = function (targetLi) {
-		var div = $('#selected-shopping-list'), li = $(targetLi), id = li.attr('id');
-		if (div && div.attr('shopping-list-id') !== id) {
-			div.remove();
-			$('<div/>', {
-				id:'selected-shopping-list',
-				'shopping-list-id':id
-			}).html(li.html()).appendTo("#main");
-			yds.renderAddItem();
-			yds.renderShoppingListItems(id);
-		}
+		var id = $(targetLi).attr('id');
+		yds.loadShoppingList("lists/" + id, function(sl) {
+			yds.renderShoppingList2(sl);
+			$('#selected-shopping-list .actionAddItem').click(function (e) {
+				alert(e);
+			});
+		});
 	};
 
 	var processListItems = function (data) {
@@ -33,16 +48,17 @@ yds.getShoppingLists = function () {
 	yds._renderList('#main', 'shopping-lists', 'lists', renderShoppingList, processListItems);
 };
 
-yds.renderShoppingListItems = function (shoppingListId) {
-	var processListItems = function (data) {
-		$.each(data.items, function (key, item) {
-			$('<li/>', {
-				html:item.name
-			}).appendTo('#shopping-list-items');
-		});
-	};
-	yds._renderList("#selected-shopping-list", "shopping-list-items", 'lists/' + shoppingListId, function () {
-	}, processListItems);
+yds.addItem = function(item) {
+	var itemMarkup = $('#slItemTmpl').render({name: item});
+	$(itemMarkup).appendTo('#main2 ul');
+	yds.saveShoppingList();
+};
+
+yds.loadList = function (id) {
+	yds.loadShoppingList("lists/" + id, function (sl) {
+		yds.renderShoppingList2(sl);
+		$('#selected-shopping-list .actionAddItem').click(yds.handleAddListItemClick);
+	});
 };
 
 yds._renderList = function (parentElementSelector, listId, url, onClickFunction, processListItems) {
@@ -50,12 +66,7 @@ yds._renderList = function (parentElementSelector, listId, url, onClickFunction,
 
 		$('<ul/>', {
 			id:listId
-		}).click(
-			function (e) {
-				if ($(e.target).is('li')) {
-					onClickFunction(e.target);
-				}
-			}).appendTo(parentElementSelector);
+		}).click(yds.handleListClick).appendTo(parentElementSelector);
 
 		processListItems(data);
 	});
@@ -70,19 +81,6 @@ yds.renderAddList = function () {
 		});
 	};
 	yds._renderInputArea('#main', fn);
-};
-
-yds.renderAddItem = function(f) {
-	var fn = f || function () {
-		var name = $('#selected-shopping-list input[type="text"]').val();
-		$('#selected-shopping-list input[type="text"]').val('');
-		$('<li/>', {
-			html:name
-		}).appendTo('#shopping-list-items');
-		yds.saveShoppingList();
-	};
-
-	yds._renderInputArea('#selected-shopping-list', fn);
 };
 
 yds.saveShoppingList = function() {
@@ -104,4 +102,14 @@ yds._renderInputArea = function (parentElementSelector, fn) {
 		type:'button',
 		value:'Add'
 	}).click(fn).appendTo(parentElementSelector);
+};
+
+yds.loadShoppingList = function (url, cb) {
+	yds.jq.getJSON(url, function (data) {
+		cb(data);
+	});
+};
+
+yds.renderShoppingList2 = function(sl) {
+	$('#main2').html($('#slTmpl').render(sl));
 };
