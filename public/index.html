@@ -60,8 +60,8 @@
 	    <!-- Shopping List Stuff -->
 
 	    <div class="row">
-		    <div id="main" class="span4"></div>
-		    <div id="main2" class="span4"></div>
+		    <div id="main" class="span6"></div>
+		    <div id="main2" class="span6"></div>
 		</div>
 
 	    <!-- End Shopping List Stuff -->
@@ -107,16 +107,26 @@
 	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
 	s.parentNode.insertBefore(g,s)}(document,'script'));
 </script>
+<script id="slTmpl" type="text/x-jsrender">
+	<input type="text" class="span3" name="list-name">
+	<input type="button" value="Add" class="btn btn-primary actionAddList">
+	<ul id="shopping-lists">
+		{{for sls tmpl="#slItemTmpl"/}}
+	</ul>
+</script>
 <script id="slItemTmpl" type="text/x-jsrender">
+	<li id="{{:_id}}">{{:name}}</li>
+</script>
+<script id="slInstanceItemTmpl" type="text/x-jsrender">
 	<li>{{:name}}</li>
 </script>
-<script id="slTmpl" type="text/x-jsrender">
+<script id="slInstanceTmpl" type="text/x-jsrender">
 	<div id="selected-shopping-list" shopping-list-id="{{:_id}}">
 		{{:name}}
 		<input type="text" name="item-name">
 		<input type="button" value="Add" class="btn btn-primary actionAddItem">
 		<ul id="shopping-list-items">
-			{{for items tmpl="#slItemTmpl"/}}
+			{{for items tmpl="#slInstanceItemTmpl"/}}
 		</ul>
 	</div>
 </script>
