@@ -56,8 +56,8 @@ yds.saveShoppingList = function() {
 	var id = $(yds.config.listInstanceContainerSelector).attr('list-id'),
 		name = $('#' + id).text(),
 		items = [];
-	$('#shopping-list-items li').each(function(index, item) {
-		items.push({name: $(item).text()});
+	$(yds.config.listItemRowSelector).each(function() {
+		items.push({name: $(this).text()});
 	});
 	yds.jq.ajax({headers: {'Content-type': 'application/json'}, url: 'lists/' + id, type:'PUT', data:JSON.stringify({_id:id, name:name, items: items})});
 };
