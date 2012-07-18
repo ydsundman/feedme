@@ -1,0 +1,10 @@
+<h5>{{:name}}</h5>
+<form class="well form-search">
+	<input type="text" class="input-xlarge search-query" name="item-name"/>
+	<button class="btn btn-primary actionAddItem">Add Item</button>
+</form>
+<table class="table table-bordered table-condensed">
+	<tbody id="shopping-list-items">
+		{{for items tmpl="slInstanceItemTmpl"/}}
+	</tbody>
+</table>

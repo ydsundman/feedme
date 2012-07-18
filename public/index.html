@@ -102,42 +102,6 @@
 <script src="js/config.js"></script>
 <script src="js/script.js"></script>
 <script src="js/shopping-lists.js"></script>
-<script>
-	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-	s.parentNode.insertBefore(g,s)}(document,'script'));
-</script>
-<script id="slTmpl" type="text/x-jsrender">
-	<form class="well form-search">
-		<input type="text" class="input-xlarge search-query" name="list-name"/>
-		<button class="btn btn-primary actionAddList">Add List</button>
-	</form>
-	<table class="table table-bordered table-condensed">
-		<tbody>
-			{{for sls tmpl="#slItemTmpl"/}}
-		</tbody>
-	</table>
-</script>
-<script id="slItemTmpl" type="text/x-jsrender">
-	<tr><td id="{{:_id}}">{{:name}}</td></tr>
-</script>
-<script id="slInstanceItemTmpl" type="text/x-jsrender">
-	<tr><td>{{:name}}</td></tr>
-</script>
-<script id="slInstanceTmpl" type="text/x-jsrender">
-	{{:name}}
-	<form class="well form-search">
-		<input type="text" class="input-xlarge search-query" name="item-name"/>
-		<button class="btn btn-primary actionAddItem">Add Item</button>
-	</form>
-	<table class="table table-bordered table-condensed">
-		<tbody id="shopping-list-items">
-			{{for items tmpl="#slInstanceItemTmpl"/}}
-		</tbody>
-	</table>
-</script>
-
 
 </body>
 </html>

@@ -24,13 +24,13 @@ yds.addList = function (name) {
 	yds.jq.post('lists', {name:name}, function (data) {
 		$(yds.config.listNameInputSelector).val('');
 
-		var listMarkup = $('#slItemTmpl').render({_id: data._id, name: data.name});
+		var listMarkup = $.render.slItemTmpl({_id: data._id, name: data.name});
 		$(listMarkup).appendTo(yds.config.listRowParentSelector);
 	});
 };
 
 yds.addItem = function(item) {
-	var itemMarkup = $('#slInstanceItemTmpl').render({name: item});
+	var itemMarkup = $.render.slInstanceItemTmpl({name: item});
 	$(itemMarkup).appendTo(yds.config.listItemRowParentSelector);
 	yds.saveShoppingList();
 };
@@ -47,7 +47,7 @@ yds.handleAddListClick = function(event) {
 yds.loadList = function (id) {
 	yds.loadShoppingList("lists/" + id, function (sl) {
 		var container = $(yds.config.listInstanceContainerSelector);
-		container.html($('#slInstanceTmpl').render(sl));
+		container.html($.render.slInstanceTmpl(sl));
 		container.attr('list-id', id);
 	});
 };
@@ -70,7 +70,7 @@ yds.loadShoppingList = function (url, cb) {
 
 yds.loadAndRenderLists = function() {
 	yds.jq.getJSON("lists", function (data) {
-		var html = $('#slTmpl').render({sls:data});
+		var html = $.render.slTmpl({sls:data});
 		$('#main').html(html);
 	});
 };
