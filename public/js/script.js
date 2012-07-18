@@ -1,6 +1,7 @@
 $(function() {
+	var cfg = yds.config;
 	yds.loadAndRenderLists();
-	$('#main').on('click', '.actionAddList', yds.handleAddListClick);
-	$('#main').on('click', 'li', yds.handleListClick);
-	$('#main2').on('click', '.actionAddItem', yds.handleAddListItemClick);
+	$(cfg.listContainerSelector).on('click', cfg.addListClickSelector, yds.handleAddListClick);
+	$(cfg.listContainerSelector).on('click', cfg.listRowSelector, yds.handleListClick);
+	$(cfg.listInstanceContainerSelector).on('click', cfg.addListItemClickSelector, yds.handleAddListItemClick);
 });

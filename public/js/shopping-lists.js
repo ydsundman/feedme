@@ -11,32 +11,32 @@ yds.handleListClick = function(event) {
 };
 
 yds.handleAddListItemClick = function(event) {
-	var itemName = $('#main2 input[type="text"]').val();
+	var itemName = $(yds.config.listItemNameInputSelector).val();
 	event.preventDefault();
 	event.stopPropagation();
 	if (itemName) {
 		yds.addItem(itemName);
 	}
-	$('#main2 input[type="text"]').val('');
+	$(yds.config.listItemNameInputSelector).val('');
 };
 
 yds.addList = function (name) {
 	yds.jq.post('lists', {name:name}, function (data) {
-		$('#main input[type="text"]').val('');
+		$(yds.config.listNameInputSelector).val('');
 
 		var listMarkup = $('#slItemTmpl').render({_id: data._id, name: data.name});
-		$(listMarkup).appendTo('#main ul');
+		$(listMarkup).appendTo(yds.config.listRowParentSelector);
 	});
 };
 
 yds.addItem = function(item) {
 	var itemMarkup = $('#slInstanceItemTmpl').render({name: item});
-	$(itemMarkup).appendTo('#main2 ul');
+	$(itemMarkup).appendTo(yds.config.listItemRowParentSelector);
 	yds.saveShoppingList();
 };
 
 yds.handleAddListClick = function(event) {
-	var name = $('#main input[type="text"]').val();
+	var name = $(yds.config.listNameInputSelector).val();
 	event.preventDefault();
 	event.stopPropagation();
 	if (name) {
@@ -46,12 +46,14 @@ yds.handleAddListClick = function(event) {
 
 yds.loadList = function (id) {
 	yds.loadShoppingList("lists/" + id, function (sl) {
-		$('#main2').html($('#slInstanceTmpl').render(sl));
+		var container = $(yds.config.listInstanceContainerSelector);
+		container.html($('#slInstanceTmpl').render(sl));
+		container.attr('list-id', id);
 	});
 };
 
 yds.saveShoppingList = function() {
-	var id = $('#selected-shopping-list').attr('shopping-list-id'),
+	var id = $(yds.config.listInstanceContainerSelector).attr('list-id'),
 		name = $('#' + id).text(),
 		items = [];
 	$('#shopping-list-items li').each(function(index, item) {

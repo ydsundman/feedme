@@ -40,7 +40,7 @@ ShoppingListTest.prototype.tearDown = function () {
 	yds.saveShoppingList = ShoppingListTest.saveShoppingList;
 };
 
-ShoppingListTest.prototype.testSaveShoppingListShouldCollectItemsFromMarkupAndPost = function () {
+ShoppingListTest.prototype.oldtestSaveShoppingListShouldCollectItemsFromMarkupAndPost = function () {
 	/*:DOC
 		main += <ul id="shopping-lists">
 					<li id="1">one</li>

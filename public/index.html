@@ -99,6 +99,7 @@
 <script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
 <script src="js/libs/jsrender.js"></script>
+<script src="js/config.js"></script>
 <script src="js/script.js"></script>
 <script src="js/shopping-lists.js"></script>
 <script>
@@ -110,25 +111,25 @@
 <script id="slTmpl" type="text/x-jsrender">
 	<input type="text" class="span3" name="list-name">
 	<input type="button" value="Add" class="btn btn-primary actionAddList">
-	<ul id="shopping-lists">
-		{{for sls tmpl="#slItemTmpl"/}}
-	</ul>
+	<table class="table table-bordered table-condensed">
+		<tbody>
+			{{for sls tmpl="#slItemTmpl"/}}
+		</tbody>
+	</table>
 </script>
 <script id="slItemTmpl" type="text/x-jsrender">
-	<li id="{{:_id}}">{{:name}}</li>
+	<tr></tr><td id="{{:_id}}">{{:name}}</td></tr>
 </script>
 <script id="slInstanceItemTmpl" type="text/x-jsrender">
 	<li>{{:name}}</li>
 </script>
 <script id="slInstanceTmpl" type="text/x-jsrender">
-	<div id="selected-shopping-list" shopping-list-id="{{:_id}}">
-		{{:name}}
-		<input type="text" name="item-name">
-		<input type="button" value="Add" class="btn btn-primary actionAddItem">
-		<ul id="shopping-list-items">
-			{{for items tmpl="#slInstanceItemTmpl"/}}
-		</ul>
-	</div>
+	{{:name}}
+	<input type="text" name="item-name">
+	<input type="button" value="Add" class="btn btn-primary actionAddItem">
+	<ul id="shopping-list-items">
+		{{for items tmpl="#slInstanceItemTmpl"/}}
+	</ul>
 </script>
 
 
