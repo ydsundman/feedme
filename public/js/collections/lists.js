@@ -1,12 +1,10 @@
 define([
-	'jquery',
-	'underscore',
 	'backbone',
 	'models/shopping-list'
-], function($, _, Backbone, ShoppingList){
+], function(Backbone, ShoppingList) {
 	var Lists = Backbone.Collection.extend({
-		model: ShoppingList,
-		url: 'http://localhost:3000/lists'
+		model:ShoppingList,
+		url:'/lists'
 	});
 	return Lists;
 });
