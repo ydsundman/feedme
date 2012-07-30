@@ -1,0 +1,9 @@
+<table class="table table-bordered table-condensed">
+	<tbody>
+	<% _.each(lists, function(list) { %>
+
+		<tr><td id="<%= list.get('_id') %>"><%= list.get('name') %></td></tr>
+
+	<% }); %>
+	</tbody>
+</table>
