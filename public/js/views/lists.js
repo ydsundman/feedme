@@ -16,6 +16,23 @@ define([
 				}
 			});
 		}
+		,
+		events: {
+			'click': 'click'
+		},
+		click: function(event) {
+			var target = $(event.target);
+			console.log('id: ' + target.attr('id'));
+			console.log('Backbone.Router.navigate: ' + Backbone.Router.navigate);
+//			var message = new MessageModel();
+//			message.save({ message: $('.message').val()}, {
+//				success: function () {
+//					that.trigger('postMessage');
+//				}
+//			});
+		}
 	});
 	return ListsView;
 });
+
+
