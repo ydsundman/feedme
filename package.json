@@ -2,12 +2,15 @@
 	"name":"feedme",
 	"version":"0.0.1",
 	"private":true,
+	"scripts":{
+		"start":"node app"
+	},
 	"engines":{
 		"node":">= 0.8.2",
 		"npm":">= 1.1.36"
 	},
 	"dependencies":{
-		"express":"2.5.8",
+		"express":"3.x",
 		"sass":">= 0.0.1",
 		"ejs":">= 0.0.1",
 		"mongoose":">= 2.5.9",
