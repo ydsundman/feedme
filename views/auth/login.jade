@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+	.container
+		.row
+			.well.span4
+				form#sign-in-form
+					h2 Sign In
+					span
+						a(href='/signup') or signup
+					.clearfix
+						label(for='username_in') Username
+						.input
+							input#username_in(name='username_in', size='30', type='text')
+					.clearfix
+						label(for='pwd_in') Password
+						.input
+							input#pwd_in(name='pwd_in', size='30', type='text')
+					label.checkbox
+						input#remember_in(type='checkbox', name='remember_in', value='yes', checked='true')
+						span(for='remember_in') Remember me
+					input#submit_in.btn.btn-primary(type='submit', value='Sign In »', name='submit_in')
+					span.switch(data-switch='forgot-password-form')&nbsp;Forgot my password
+
+				form#forgot-password-form.hide
+					h2 Forgot Password
+					.clearfix
+						label(for='email_pwd') Email
+						.input
+							input#email_pwd(name='email_pwd', size='30', type='text')
+						span.switch(data-switch='sign-in-form')&nbsp;Never mind, I remembered my password
+					input#submit_pwd.btn.btn-primary(type='submit', value='Remind me »', name='submit_pwd')
+
+		.cleaner
+

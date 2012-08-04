@@ -1,0 +1,53 @@
+!!! 5
+html(lang='en')
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		title #{title}
+
+		script(src='js/libs/jquery-1.7.2.min.js')
+		script(type='text/javascript')
+			$(document).delegate('.switch', 'click', function(){
+				var c = $(this).attr('data-switch');
+				$('#sign-in-form').slideUp(300, function(){ $(this).addClass('hide'); });
+				$('#forgot-password-form').slideUp(300, function(){ $(this).addClass('hide'); });
+				$('#'+c).slideDown(300, function(){
+					$(this).removeClass('hide');
+					$('input:first', this).focus();
+				});
+				c = null;
+			});
+
+		link(href='css/bootstrap.min.css', rel='stylesheet')
+		style(type='text/css')
+			body {
+				padding-top: 60px;
+			}
+			.switch {
+				display:inline-block;
+				cursor:pointer;
+			}
+
+		link(rel='shortcut icon', href='favicon.ico')
+		link(rel='apple-touch-icon', href='apple-touch-icon.png')
+		link(rel='apple-touch-icon', sizes='72x72', href='apple-touch-icon-72x72.png')
+		link(rel='apple-touch-icon', sizes='114x114', href='apple-touch-icon-114x114.png')
+
+	body
+		.navbar.navbar-fixed-top
+			.navbar-inner
+				.container
+					a.brand(href='/') FeedMe
+					ul.nav
+						li
+							a(href='index.html') Home
+						li.active
+							a(href='index.html') Sample
+					ul.nav.secondary-nav
+						li
+							a(href='#') Welcome Guest!
+		block content
+
+		footer(style='text-align: center;')
+			p ©
+				a(href='http://www.yds.se', target='_blank', title='Professional Web Developer')&nbsp;Y&amp;D Sundman AB

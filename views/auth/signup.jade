@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+	.container
+		.row
+			.well.span4
+				form#sign-up-form
+					h2 Sign Up for Free
+					.clearfix
+						label(for='email_up') Email
+						.input
+							input#email_up.xlarge(name='email_up', size='30', type='text')
+
+					.clearfix
+						label(for='username_up') Username
+							.input
+								input#username_up.xlarge(name='username_up', size='30', type='text')
+					.clearfix
+						label(for='pwd_up') Password
+							.input
+								input#pwd_up.xlarge(name='pwd_up', size='30', type='text')
+					label.checkbox
+						input#terms_up(type='checkbox', name='terms_up', value='yes', checked='true')
+						span(for='terms_up') Agree to
+							a(href='#') Terms of Use
+					input#submit_up.btn.btn-primary(type='submit', value='Sign Up »', name='submit_up')
