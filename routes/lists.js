@@ -9,6 +9,7 @@ exports.routes = [
 		handler: function(req, res) {
 			db.find({}, function(err, sls) {
 				if (err) {
+					console.log(err);
 					res.json(err, 500);
 					return;
 				}

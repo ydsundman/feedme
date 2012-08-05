@@ -1,3 +1,7 @@
+process.env.NODE_ENV = 'test';
+
+console.log('db_url: ' + require('../lib/config')().db_url);
+
 var SlDb = require('../lib/db.js').SlDb,
 	db = new SlDb();
 
