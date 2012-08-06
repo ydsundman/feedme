@@ -1,17 +1,7 @@
 process.env.NODE_ENV = 'test';
 
-console.log('db_url: ' + require('../lib/config')().db_url);
-
 var SlDb = require('../lib/db.js').SlDb,
 	db = new SlDb();
-
-exports['async'] = function(test) {
-	test.expect(1);
-	setTimeout(function() {
-		test.ok(6 === 'foobar'.length);
-		test.done();
-	}, 2000);
-};
 
 exports.deleteTest = function(test) {
 	test.expect(1);
