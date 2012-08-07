@@ -64,6 +64,24 @@ module.exports = {
 			test.ok(!auth, 'should not pass');
 		});
 		test.done();
-	}
+	},
+
+	'It should be possible to find a user by name': function(test) {
+
+		var ts = new Date().getTime(), username = 'un' + ts, email = username + '@yds.se';
+
+		test.expect(4);
+		var user = new User({username:username, email:email, password:'xxx'});
+		user.save(function(err) {
+			test.ok(!err);
+			var id = user._id;
+			User.findOne({username:username}, function(err, user2) {
+				test.ok(!err);
+				test.equal(user2.username, username);
+				test.equal(user2.email, email);
+				test.done();
+			});
+		});
+	},
 
 };

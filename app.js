@@ -1,6 +1,7 @@
 
 var express = require('express'),
 	listRoutes = require('./routes/lists').routes,
+	signup = require('./routes/signup'),
 	http = require('http'),
 	path = require('path');
 
@@ -46,10 +47,10 @@ app.get('/login', function(req, res) {
 	res.render('auth/login', { title: 'Login' });
 });
 
-app.get('/signup', function(req, res) {
-	console.log('/signup');
-	res.render('auth/signup', { title: 'Sign Up' });
-});
+
+// Sign up
+app.get('/signup', signup.form);
+app.post('/signup', signup.submit);
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));
