@@ -3,6 +3,7 @@ var express = require('express'),
 	listRoutes = require('./routes/lists').routes,
 	signup = require('./routes/signup'),
 	login = require('./routes/login'),
+	user = require('./lib/user'),
 	http = require('http'),
 	util = require('util'),
 	path = require('path');
@@ -23,6 +24,7 @@ app.configure(function() {
 	app.use(express.methodOverride());
 	app.use(express.cookieParser());
 	app.use(express.session({ secret:'your secret here' }));
+	app.use(user);
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -43,7 +45,7 @@ app.locals.username = 'Guest';
 
 app.get('/', function(req, res) {
 	console.log('index, session: ' + util.inspect(req.session));
-	res.render('index', { title: 'FeedMe', username: req.session.uid ? req.session.uid : 'Guest' });
+	res.render('index', { title: 'FeedMe', username: req.user ? req.user.username : 'Guest' });
 });
 
 // Login
