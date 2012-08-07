@@ -2,7 +2,9 @@
 var express = require('express'),
 	listRoutes = require('./routes/lists').routes,
 	signup = require('./routes/signup'),
+	login = require('./routes/login'),
 	http = require('http'),
+	util = require('util'),
 	path = require('path');
 
 var app = module.exports = express();
@@ -37,18 +39,18 @@ listRoutes.forEach(function(r) {
 	app[r.verb](r.url, r.handler);
 });
 
+app.locals.username = 'Guest';
+
 app.get('/', function(req, res) {
-	console.log('/');
-	res.render('index');
+	console.log('index, session: ' + util.inspect(req.session));
+	res.render('index', { title: 'FeedMe', username: req.session.uid ? req.session.uid : 'Guest' });
 });
 
-app.get('/login', function(req, res) {
-	console.log('/login');
-	res.render('auth/login', { title: 'Login' });
-});
+// Login
+app.get('/login', login.form);
+app.post('/login', login.submit);
 
-
-// Sign up
+// Signup
 app.get('/signup', signup.form);
 app.post('/signup', signup.submit);
 

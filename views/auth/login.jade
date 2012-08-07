@@ -4,18 +4,19 @@ block content
 	.container
 		.row
 			.well.span4
-				form#sign-in-form
+				form(action='/login', method='post')
 					h2 Sign In
+					include ./errors
 					span
 						a(href='/signup') or signup
 					.clearfix
-						label(for='username_in') Username
+						label(for='user[username]') Username
 						.input
-							input#username_in(name='username_in', size='30', type='text')
+							input(name='user[username]', size='30', type='text')
 					.clearfix
-						label(for='pwd_in') Password
+						label(for='user[pwd]') Password
 						.input
-							input#pwd_in(name='pwd_in', size='30', type='text')
+							input(name='user[pwd]', size='30', type='text')
 					label.checkbox
 						input#remember_in(type='checkbox', name='remember_in', value='yes', checked='true')
 						span(for='remember_in') Remember me
@@ -30,6 +31,3 @@ block content
 							input#email_pwd(name='email_pwd', size='30', type='text')
 						span.switch(data-switch='sign-in-form')&nbsp;Never mind, I remembered my password
 					input#submit_pwd.btn.btn-primary(type='submit', value='Remind me »', name='submit_pwd')
-
-		.cleaner
-
