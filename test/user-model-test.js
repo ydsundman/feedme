@@ -54,7 +54,7 @@ module.exports = {
 		test.done();
 	},
 
-	'it should be possible to authenticate a user againt a password': function(test) {
+	'it should be possible to authenticate a user against a password': function(test) {
 		test.expect(2);
 		var user = new User({email:'email@somwehere.com', username:'user', password: 'xxx'});
 		user.authenticate('xxx', function(err, auth) {
