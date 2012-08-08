@@ -1,12 +1,6 @@
 process.env.NODE_ENV = 'test';
 
-var mongoose = require('../lib/db-setup').mongoose,
-	models = require('../lib/models'),
-	ShoppingList;
-
-models.setUp(mongoose, function() {
-	ShoppingList = mongoose.model('ShoppingList');
-});
+var ShoppingList = require('../lib/models').ShoppingList;
 
 module.exports = {
 

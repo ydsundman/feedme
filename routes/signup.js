@@ -1,11 +1,5 @@
-var mongoose = require('../lib/db-setup').mongoose,
-	models = require('../lib/models'),
-	util = require('util'),
-	User;
-
-models.setUp(mongoose, function() {
-	User = mongoose.model('User');
-});
+var User = require('../lib/models').User,
+	util = require('util');
 
 function form(req, res) {
 	console.log('signup.form');
