@@ -6,9 +6,9 @@ block content
 			.well.span4
 				form(action='/login', method='post')
 					h2 Sign In
-					include ./errors
 					span
 						a(href='/signup') or signup
+					include ./errors
 					.clearfix
 						label(for='user[username]') Username
 						.input

@@ -59,6 +59,8 @@ http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));
 });
 
+module.exports.app = app;
+
 // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST http://localhost:3000/lists/12 -d '{"x":3}'
 // curl -H "Accept: application/json" -H "Content-type: application/json" -X PUT http://localhost:3000/lists/12 -d '{"x":3}'
 // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST http://localhost:3000/lists -d '{"name":"XXX"}'

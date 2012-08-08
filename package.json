@@ -14,5 +14,11 @@
 		"jade": "*",
 		"mongoose":"2.x",
 		"mongodb":"1.x"
+	},
+	"devDependencies":{
+		"mocha":"*",
+		"should":"*",
+		"nodeunit":"*",
+		"supertest":"*"
 	}
 }
