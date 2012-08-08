@@ -24,7 +24,6 @@ app.configure(function() {
 	app.use(express.methodOverride());
 	app.use(express.cookieParser());
 	app.use(express.session({ secret:'your secret here' }));
-	app.use(user);
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -43,7 +42,7 @@ listRoutes.forEach(function(r) {
 
 app.locals.username = 'Guest';
 
-app.get('/', function(req, res) {
+app.get('/', user, function(req, res) {
 	console.log('index, session: ' + util.inspect(req.session));
 	res.render('index', { title: 'FeedMe', username: req.user ? req.user.username : 'Guest' });
 });
