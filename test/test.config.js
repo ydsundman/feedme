@@ -1,7 +1,7 @@
 /*global test, suite */
 
 var assert = require('assert');
-suite('nextPrime', function() {
+suite('configuration settings', function() {
 
 	"use strict";
 
