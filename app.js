@@ -1,65 +1,68 @@
+(function() {
+	"use strict";
+	var express = require('express'),
+		listRoutes = require('./routes/lists').routes,
+		signup = require('./routes/signup'),
+		login = require('./routes/login'),
+		user = require('./lib/user'),
+		http = require('http'),
+		util = require('util'),
+		path = require('path');
 
-var express = require('express'),
-	listRoutes = require('./routes/lists').routes,
-	signup = require('./routes/signup'),
-	login = require('./routes/login'),
-	user = require('./lib/user'),
-	http = require('http'),
-	util = require('util'),
-	path = require('path');
+	var app = module.exports = express();
 
-var app = module.exports = express();
-
-var port = process.env.PORT || 3000;
+	var port = process.env.PORT || 3000;
 
 // Configuration
 
-app.configure(function() {
-	app.set('port', port);
-	app.set('views', __dirname + '/views');
-	app.set('view engine', 'jade');
-	app.use(express.favicon());
-	app.use(express.logger('dev'));
-	app.use(express.bodyParser());
-	app.use(express.methodOverride());
-	app.use(express.cookieParser());
-	app.use(express.session({ secret:'your secret here' }));
-	app.use(app.router);
-	app.use(express.static(path.join(__dirname, 'public')));
-});
+	app.configure(function() {
+		app.set('port', port);
+		app.set('views', __dirname + '/views');
+		app.set('view engine', 'jade');
+		app.use(express.favicon());
+		app.use(express.logger('dev'));
+		app.use(express.bodyParser());
+		app.use(express.methodOverride());
+		app.use(express.cookieParser());
+		app.use(express.session({ secret:'your secret here' }));
+		app.use(app.router);
+		app.use(express.static(path.join(__dirname, 'public')));
+	});
 
-app.configure('development', function() {
-	app.use(express.errorHandler());
-});
+	app.configure('development', function() {
+		app.use(express.errorHandler());
+	});
 
-app.configure('production', function(){
-	app.use(express.errorHandler());
-});
+	app.configure('production', function() {
+		app.use(express.errorHandler());
+	});
 
-listRoutes.forEach(function(r) {
-	app[r.verb](r.url, r.handler);
-});
+	listRoutes.forEach(function(r) {
+		app[r.verb](r.url, r.handler);
+	});
 
-app.locals.username = 'Guest';
+	app.locals.username = 'Guest';
 
-app.get('/', user, function(req, res) {
-	console.log('index, session: ' + util.inspect(req.session));
-	res.render('index', { title: 'FeedMe', username: req.user ? req.user.username : 'Guest' });
-});
+	app.get('/', user, function(req, res) {
+		console.log('index, session: ' + util.inspect(req.session));
+		res.render('index', { title:'FeedMe', username:req.user ? req.user.username : 'Guest' });
+	});
 
 // Login
-app.get('/login', login.form);
-app.post('/login', login.submit);
+	app.get('/login', login.form);
+	app.post('/login', login.submit);
 
 // Signup
-app.get('/signup', signup.form);
-app.post('/signup', signup.submit);
+	app.get('/signup', signup.form);
+	app.post('/signup', signup.submit);
 
-http.createServer(app).listen(app.get('port'), function() {
-	console.log("Express server listening on port " + app.get('port'));
-});
+	http.createServer(app).listen(app.get('port'), function() {
+		console.log("Express server listening on port " + app.get('port'));
+	});
 
-module.exports.app = app;
+	module.exports.app = app;
+
+})();
 
 // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST http://localhost:3000/lists/12 -d '{"x":3}'
 // curl -H "Accept: application/json" -H "Content-type: application/json" -X PUT http://localhost:3000/lists/12 -d '{"x":3}'
