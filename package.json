@@ -1,9 +1,10 @@
 {
-	"name":"feedme",
-	"version":"0.0.1",
+	"name":"FeedMe",
+	"version":"0.2.0",
 	"private":true,
 	"scripts":{
-		"start":"node app.js"
+		"start":"node app.js",
+		"test":"NODE_ENV=test mocha -u tdd"
 	},
 	"engines":{
 		"node":"0.8.x",
