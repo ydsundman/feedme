@@ -51,6 +51,7 @@
 // Login
 	app.get('/login', login.form);
 	app.post('/login', login.submit);
+	app.get('/logout', login.logout);
 
 // Signup
 	app.get('/signup', signup.form);

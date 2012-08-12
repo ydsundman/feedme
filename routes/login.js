@@ -32,9 +32,16 @@
 		});
 	}
 
+	function logout(req, res) {
+		req.session.destroy(function() {});
+		req.session = null;
+		res.redirect('/');
+	}
+
 	module.exports = {
 		form:form,
-		submit:submit
+		submit:submit,
+		logout:logout
 	};
 
 })();
