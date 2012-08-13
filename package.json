@@ -4,7 +4,7 @@
 	"private":true,
 	"scripts":{
 		"start":"node app.js",
-		"test":"NODE_ENV=test mocha -u tdd"
+		"test":"NODE_ENV=test mocha -u tdd --recursive"
 	},
 	"engines":{
 		"node":"0.8.x",
@@ -20,6 +20,7 @@
 		"mocha":"*",
 		"should":"*",
 		"nodeunit":"*",
-		"supertest":"*"
+		"supertest":"*",
+		"nodemon":"*"
 	}
 }

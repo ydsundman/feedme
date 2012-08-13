@@ -8,7 +8,6 @@ suite('test login module using the actual app', function() {
 	process.env.PORT = 9999;
 
 	var request = require('supertest'),
-		http = require('http'),
 		User = require('../lib/models').User,
 		app = require('../app');
 
