@@ -5,7 +5,7 @@ suite('test user model', function() {
 
 	"use strict";
 
-	var User = require('../lib/models').User;
+	var User = require('../../lib/models').User;
 
 	setup(function(done) {
 		User.remove({}, function(err) {

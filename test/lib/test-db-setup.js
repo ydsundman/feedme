@@ -5,7 +5,7 @@ suite('db setup', function() {
 
 	"use strict";
 
-	var db_setup = require('../lib/db-setup');
+	var db_setup = require('../../lib/db-setup');
 
 	test('db-setup should have mongoose, Schema and ObjectId properties', function() {
 		assert.ok(db_setup.mongoose);

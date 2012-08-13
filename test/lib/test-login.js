@@ -5,8 +5,8 @@ suite('test login module', function() {
 
 	"use strict";
 
-	var login = require('../routes/login'),
-		User = require('../lib/models').User,
+	var login = require('../../routes/login'),
+		User = require('../../lib/models').User,
 		username = 'login-user',
 		pwd = 'xxx';
 

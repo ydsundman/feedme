@@ -5,7 +5,7 @@ suite('test ShoppingList model', function() {
 
 	"use strict";
 
-	var ShoppingList = require('../lib/models').ShoppingList;
+	var ShoppingList = require('../../lib/models').ShoppingList;
 
 	setup(function(done) {
 		ShoppingList.remove({}, function(err) {

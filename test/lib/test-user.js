@@ -5,8 +5,8 @@ suite('test load user middleware', function() {
 
 	"use strict";
 
-	var userMiddleWare = require('../lib/user'),
-		User = require('../lib/models').User,
+	var userMiddleWare = require('../../lib/user'),
+		User = require('../../lib/models').User,
 		uid1, uid2;
 
 	function testLoadingCorrectUser(uid, done) {
