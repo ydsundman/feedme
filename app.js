@@ -1,13 +1,13 @@
 (function() {
 	"use strict";
 	var express = require('express'),
-		listRoutes = require('./routes/lists').routes,
 		signup = require('./routes/signup'),
 		login = require('./routes/login'),
 		user = require('./lib/user'),
 		http = require('http'),
 		util = require('util'),
-		path = require('path');
+		path = require('path'),
+		resource = require('./lib/resource');
 
 	var app = module.exports = express();
 
@@ -37,9 +37,7 @@
 		app.use(express.errorHandler());
 	});
 
-	listRoutes.forEach(function(r) {
-		app[r.verb](r.url, r.handler);
-	});
+	resource(app, 'lists', require('./routes/lists'));
 
 	app.locals.username = 'Guest';
 
