@@ -64,7 +64,7 @@ suite('test ShoppingList model', function() {
 	test('POST should create new instance with id and all', function(done) {
 		request(app).
 			post('/' + path).
-			send({name: 'xxx', items:['xyz', 'XYZ']}).
+			send({name: 'xxx', items:[{name:'xyz'}, {name:'XYZ'}]}).
 			expect(200).
 			expect('Content-Type', /json/).
 			end(function(err, res) {
@@ -81,8 +81,8 @@ suite('test ShoppingList model', function() {
 			String(sl._id).should.eql(id);
 			sl.name.should.eql('xxx');
 			sl.items.should.have.length(2);
-			sl.items[0].should.eql('xyz');
-			sl.items[1].should.eql('XYZ');
+			sl.items[0].name.should.eql('xyz');
+			sl.items[1].name.should.eql('XYZ');
 			done();
 		});
 	};
@@ -90,7 +90,7 @@ suite('test ShoppingList model', function() {
 	test('PUT should update the shopping list with the given id with the data posted', function(done) {
 		request(app).
 			put('/' + path + '/' + list1.id).
-			send({name: 'xxx', items:['xyz', 'XYZ']}).
+			send({name: 'xxx', items:[{name:'xyz'}, {name:'XYZ'}]}).
 			expect(200).
 			expect('Content-Type', /json/).
 			end(function(err, res) {

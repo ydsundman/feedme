@@ -5,11 +5,23 @@ suite('test ShoppingList model', function() {
 
 	"use strict";
 
-	var ShoppingList = require('../../lib/models').ShoppingList;
+	var ShoppingList = require('../../lib/models').ShoppingList,
+		list;
+
+	var addTestList = function(cb) {
+		var ts = new Date().getTime(), name = 'name' + ts,
+			sl = new ShoppingList({name:name});
+		sl.save(function(err) {
+			cb(err, sl);
+		});
+	};
 
 	setup(function(done) {
 		ShoppingList.remove({}, function(err) {
-			done(err);
+			addTestList(function(e0, sl) {
+				list = sl;
+				done(e0);
+			});
 		});
 	});
 
@@ -29,16 +41,34 @@ suite('test ShoppingList model', function() {
 
 		var ts = new Date().getTime(), name = 'name' + ts;
 
-		var sl = new ShoppingList({name:name, items:['xxx', 'yyy']});
+		var sl = new ShoppingList({name:name, items:[{name:'xxx'}, {name:'yyy'}]});
 		sl.save(function(err) {
 			assert.ok(!err);
 			ShoppingList.findById(sl.id, function(err, sl2) {
 				assert.ok(!err);
 				assert.equal(name, sl2.name, 'name should be \'' + name + '\'');
 				assert.equal(2, sl2.items.length);
-				assert.equal('xxx', sl2.items[0]);
-				assert.equal('yyy', sl2.items[1]);
+				assert.equal('xxx', sl2.items[0].name);
+				assert.equal('yyy', sl2.items[1].name);
 				done();
+			});
+		});
+	});
+
+
+	test('It should be possible to update an existing list including items', function(done) {
+
+		ShoppingList.findById(list.id, function(err, sl) {
+			assert.ok(!err);
+			sl.items = [{name:'xxx'}, {name:'yyy'}];
+			sl.save(function(err2) {
+				ShoppingList.findById(list.id, function(err, sl2) {
+					assert.ok(!err);
+					assert.equal(2, sl2.items.length);
+					assert.equal('xxx', sl2.items[0].name);
+					assert.equal('yyy', sl2.items[1].name);
+					done();
+				});
 			});
 		});
 	});
