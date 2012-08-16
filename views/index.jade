@@ -1,4 +1,10 @@
 extends layout
 
 block content
-	h1 XXX
+	.container
+		.row
+			#main.span6
+			#main2.span6
+
+block end-of-body
+	script(data-main='js/main', src='js/libs/require/require-jquery.js')
