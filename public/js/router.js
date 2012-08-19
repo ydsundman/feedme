@@ -1,8 +1,8 @@
 /*global define */
 (function() {
 	"use strict";
-	define(['jquery','underscore','backbone','views/lists'],
-		function($, _, Backbone, ListsView) {
+	define(['jquery','underscore','backbone','views/lists','views/list'],
+		function($, _, Backbone, ListsView, ListView) {
 		var AppRouter = Backbone.Router.extend({
 
 			routes:{
@@ -11,11 +11,13 @@
 
 			showList:function(id) {
 				console.log('showList:' + id);
+				this.listView.selectItem(id);
 			},
 
 			initialize: function() {
 				console.log('AppRouter.initialize()');
 				this.listsView = new ListsView({router:this});
+				this.listView = new ListView();
 				this.listsView.render();
 			}
 		});

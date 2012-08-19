@@ -5,7 +5,8 @@
 		'backbone'
 	], function(Backbone) {
 		var ShoppingList = Backbone.Model.extend({
-			url:'/lists'
+			idAttribute: '_id',
+			urlRoot:'/lists'
 		});
 		return ShoppingList;
 	});

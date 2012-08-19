@@ -1,0 +1,12 @@
+<h5><%= list.name %></h5>
+<form class="well form-search">
+	<input type="text" class="input-xlarge search-query" name="item-name"/>
+	<button class="btn btn-primary actionAddItem">Add Item</button>
+</form>
+<table class="table table-bordered table-condensed">
+	<tbody id="shopping-list-items">
+	<% _.each(list.items, function(item) { %>
+		<tr><td><%= item.name %></td></tr>
+	<% }); %>
+	</tbody>
+</table>
