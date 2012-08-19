@@ -1,32 +1,30 @@
-define([
-	'jquery',
-	'underscore',
-	'backbone'
-], function($, _, Backbone) {
-	var AppRouter = Backbone.Router.extend({
-		routes: {
-			'list/:id':'showList',
-			'*actions':'defaultAction' // All urls will trigger this route
-		},
-		showList: function(id) {
-			console.log('showList:' + id);
-		}
-	});
+/*global define */
+(function() {
+	"use strict";
+	define(['jquery','underscore','backbone','views/lists'],
+		function($, _, Backbone, ListsView) {
+		var AppRouter = Backbone.Router.extend({
 
-	var initialize = function(options) {
-		var appView = options.appView;
-		var router = new AppRouter(options);
+			routes:{
+				'list/:id':'showList'
+			},
 
-		router.on('route:defaultAction', function(actions) {
-			console.log('actions: ' + actions);
-//			require(['views/dashboard/page'], function (DashboardPage) {
-//				var dashboardPage = Vm.create(appView, 'DashboardPage', DashboardPage);
-//				dashboardPage.render();
-//			});
+			showList:function(id) {
+				console.log('showList:' + id);
+			},
+
+			initialize: function() {
+				console.log('AppRouter.initialize()');
+				this.listsView = new ListsView({router:this});
+				this.listsView.render();
+			}
 		});
 
-	};
-	return {
-		initialize:initialize
-	};
-});
+		var initialize = function(options) {
+			var router = new AppRouter(options);
+		};
+		return {
+			initialize:initialize
+		};
+	});
+})();

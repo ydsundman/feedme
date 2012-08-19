@@ -23,7 +23,7 @@
 		var list = new ShoppingList({name: req.body.name, items: req.body.items || []});
 		list.save(function(err) {
 			if (err) {throw new Error(err);}
-			res.json(list);
+			res.json(201, list);
 		});
 	};
 
