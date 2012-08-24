@@ -1,15 +1,16 @@
 /*global test, setup, suite */
 
-var assert = require('assert');
+var should = require('should');
 suite('test load user middleware', function() {
 
 	"use strict";
 
-	var userMiddleWare = require('../../lib/user'),
+	var redirectUserMiddleWare = require('../../lib/user').redirect,
+		unauthorizedUserMiddleWare = require('../../lib/user').unauthorized,
 		User = require('../../lib/models').User,
 		uid1, uid2;
 
-	function testLoadingCorrectUser(uid, done) {
+	function testLoadingCorrectUser(mw, uid, done) {
 		var req = {
 				session:{
 					uid:uid
@@ -22,11 +23,51 @@ suite('test load user middleware', function() {
 				locals:{}
 			};
 
-		userMiddleWare(req, res, function(err) {
-			assert.equal(uid, req.user.id);
-			assert.equal(uid, res.locals.user.id);
+		mw(req, res, function(err) {
+			req.user.id.should.equal(uid);
+			res.locals.user.id.should.equal(uid);
 			done(err);
 		});
+	}
+
+	function testRedirectingToLogin(uid, done) {
+		var req = {
+				session:{
+					uid:uid
+				}
+			},
+			res = {
+				redirect: function(view) {
+					view.should.equal('/login');
+					done();
+				},
+				locals:{}
+			};
+
+		redirectUserMiddleWare(req, res, function(err) {
+			if (err) {done(err);}
+		});
+
+	}
+
+	function testReturningUnauthorized(uid, done) {
+		var req = {
+				session:{
+					uid:uid
+				}
+			},
+			res = {
+				json: function(code, body) {
+					code.should.equal(401);
+					body.should.eql({access:'unauthorized'});
+					done();
+				}
+			};
+
+		unauthorizedUserMiddleWare(req, res, function(err) {
+			if (err) {done(err);}
+		});
+
 	}
 
 	setup(function(done) {
@@ -43,52 +84,32 @@ suite('test load user middleware', function() {
 		});
 	});
 
-	test('should load the correct user for uid1', function(done) {
-		testLoadingCorrectUser(uid1, done);
+	test('should load the correct user for uid1 with redirect mw', function(done) {
+		testLoadingCorrectUser(redirectUserMiddleWare, uid1, done);
 	});
 
-	test('should load the correct user for uid2', function(done) {
-		testLoadingCorrectUser(uid2, done);
+	test('should load the correct user for uid2 with redirect mw', function(done) {
+		testLoadingCorrectUser(redirectUserMiddleWare, uid2, done);
+	});
+
+	test('should load the correct user for uid1 with unauthorized mw', function(done) {
+		testLoadingCorrectUser(unauthorizedUserMiddleWare, uid1, done);
+	});
+
+	test('should load the correct user for uid2 with unauthorized mw', function(done) {
+		testLoadingCorrectUser(unauthorizedUserMiddleWare, uid2, done);
 	});
 
 	test('if no uid in the session, redirect to /login', function(done) {
-		var req = {
-				session:{
-					uid:undefined
-				}
-			},
-			res = {
-				redirect: function(view) {
-					assert.equal('/login', view);
-					done();
-				},
-				locals:{}
-			};
-
-		userMiddleWare(req, res, function(err) {
-			if (err) {done(err);}
-		});
-
+		testRedirectingToLogin(undefined, done);
 	});
 
 	test('if uid for non existing user specified, redirect to /login', function(done) {
-		var req = {
-				session:{
-					uid:'50242ce894ee71d501000022'
-				}
-			},
-			res = {
-				redirect: function(view) {
-					assert.equal('/login', view);
-					done();
-				},
-				locals:{}
-			};
+		testRedirectingToLogin('50242ce894ee71d501000022', done);
+	});
 
-		userMiddleWare(req, res, function(err) {
-			if (err) {done(err);}
-		});
-
+	test('if no uid in the session, 401 (unauthorized)', function(done) {
+		testReturningUnauthorized(undefined, done);
 	});
 
 });

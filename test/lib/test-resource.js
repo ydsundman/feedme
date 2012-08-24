@@ -12,7 +12,7 @@ suite('Test setup of a resource. Will be used until express-resource is express 
 
 	var app = require('../../app'),
 		resource = require('../../lib/resource'),
-		forum = resource(app, 'forums', require('./fixtures/forum'));
+		forum = resource(app, 'forums', require('./fixtures/forum'), function(req, res, next){next();});
 
 	test('resource should be a function', function() {
 		resource.should.be.a('function');

@@ -41,7 +41,7 @@
 
 	app.locals.username = 'Guest';
 
-	app.get('/', user, function(req, res) {
+	app.get('/', user.redirect, function(req, res) {
 		console.log('index, session: ' + util.inspect(req.session));
 		res.render('index', { title:'FeedMe', username:req.user ? req.user.username : 'Guest' });
 	});

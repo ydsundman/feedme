@@ -12,7 +12,7 @@ suite('test ShoppingList model', function() {
 		ShoppingList = require('../../lib/models').ShoppingList,
 		resource = require('../../lib/resource'),
 		app = require('../../app'),
-		lists = resource(app, path, require('../../routes/lists')),
+		lists = resource(app, path, require('../../routes/lists'), function(req, res, next){next();}),
 		list0, list1;
 
 	var addTestList = function(cb) {
