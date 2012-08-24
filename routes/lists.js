@@ -22,6 +22,7 @@
 	exports.create = function(req, res) {
 		var list = new ShoppingList({name: req.body.name, items: req.body.items || []});
 		list.save(function(err) {
+			if (err) {console.log('err: ' + require('util').inspectObject(err));}
 			if (err) {throw new Error(err);}
 			res.json(201, list);
 		});
