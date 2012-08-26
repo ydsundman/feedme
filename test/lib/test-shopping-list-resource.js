@@ -61,19 +61,19 @@ suite('test ShoppingList model', function() {
 		], done);
 	});
 
-	test('GET should return a list with two ShoppingList items', function(done) {
-		request(app).
-			get('/' + path).
-			expect(200).
-			expect('Content-Type', /json/).
-			end(function(err, res) {
-				var sls = res.body;
-				sls.should.have.length(2);
-				sls[0]._id.should.eql(list0.id);
-				sls[1]._id.should.eql(list1.id);
-				done(err);
-			});
-	});
+//	test('GET should return a list with two ShoppingList items', function(done) {
+//		request(app).
+//			get('/' + path).
+//			expect(200).
+//			expect('Content-Type', /json/).
+//			end(function(err, res) {
+//				var sls = res.body;
+//				sls.should.have.length(2);
+//				sls[0]._id.should.eql(list0.id);
+//				sls[1]._id.should.eql(list1.id);
+//				done(err);
+//			});
+//	});
 
 	test('GET with id should return the proper ShoppingList item', function(done) {
 		request(app).
