@@ -6,7 +6,7 @@
 
 	exports.index = function(req, res) {
 		// TODO: Fix limit
-		ShoppingList.find({}).limit(25).exec(function(err, lists) {
+		ShoppingList.find({userId:req.user.id}).sort('name').limit(25).exec(function(err, lists) {
 			if (err) {throw new Error(err);}
 			res.json(lists);
 		});
@@ -20,9 +20,9 @@
 	};
 
 	exports.create = function(req, res) {
-		var list = new ShoppingList({name: req.body.name, items: req.body.items || []});
+		var list = new ShoppingList({name: req.body.name, userId: req.user.id, items: req.body.items || []});
 		list.save(function(err) {
-			if (err) {console.log('err: ' + require('util').inspectObject(err));}
+			if (err) {console.log('err: ' + require('util').inspect(err));}
 			if (err) {throw new Error(err);}
 			res.json(201, list);
 		});

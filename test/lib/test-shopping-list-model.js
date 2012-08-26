@@ -1,28 +1,50 @@
 /*global test, setup, suite */
 
-var assert = require('assert');
+var assert = require('assert'),
+	async = require('async');
 suite('test ShoppingList model', function() {
 
 	"use strict";
 
 	var ShoppingList = require('../../lib/models').ShoppingList,
-		list;
+		User = require('../../lib/models').User,
+		list, uid;
 
 	var addTestList = function(cb) {
 		var ts = new Date().getTime(), name = 'name' + ts,
-			sl = new ShoppingList({name:name});
+			sl = new ShoppingList({name:name, userId:uid});
 		sl.save(function(err) {
 			cb(err, sl);
 		});
 	};
 
 	setup(function(done) {
-		ShoppingList.remove({}, function(err) {
-			addTestList(function(e0, sl) {
-				list = sl;
-				done(e0);
-			});
-		});
+		async.waterfall([
+			function(cb) {
+				User.remove({}, function(err) {
+					cb(err);
+				});
+			},
+			function(cb) {
+				ShoppingList.remove({}, function(err) {
+					cb(err);
+				});
+			},
+			function(cb) {
+				var ts = new Date().getTime(), username = 'shopping-list-owner' + ts, email = username + '@yds.se';
+				var user = new User({username:username, email:email, password:'xxx'});
+				user.save(function(err) {
+					uid = user._id;
+					cb(err);
+				});
+			},
+			function(cb) {
+				addTestList(function(err, sl) {
+					list = sl;
+					cb(err);
+				});
+			}],
+			done);
 	});
 
 	test('ShoppingList should be a function', function() {
@@ -41,7 +63,10 @@ suite('test ShoppingList model', function() {
 
 		var ts = new Date().getTime(), name = 'name' + ts;
 
-		var sl = new ShoppingList({name:name, items:[{name:'xxx'}, {name:'yyy'}]});
+		var sl = new ShoppingList({name:name, userId:uid, items:[
+			{name:'xxx'},
+			{name:'yyy'}
+		]});
 		sl.save(function(err) {
 			assert.ok(!err);
 			ShoppingList.findById(sl.id, function(err, sl2) {
@@ -55,12 +80,14 @@ suite('test ShoppingList model', function() {
 		});
 	});
 
-
 	test('It should be possible to update an existing list including items', function(done) {
 
 		ShoppingList.findById(list.id, function(err, sl) {
 			assert.ok(!err);
-			sl.items = [{name:'xxx'}, {name:'yyy'}];
+			sl.items = [
+				{name:'xxx'},
+				{name:'yyy'}
+			];
 			sl.save(function(err2) {
 				ShoppingList.findById(list.id, function(err, sl2) {
 					assert.ok(!err);
@@ -70,6 +97,31 @@ suite('test ShoppingList model', function() {
 					done();
 				});
 			});
+		});
+	});
+
+	test('It should be possible to save a shopping list and find it again by user id', function(done) {
+
+		var ts = new Date().getTime(), name = 'name' + ts,
+			sl = new ShoppingList({name:name, userId: uid});
+		sl.save(function(err) {
+			assert.ok(!err);
+			// There should now be two lists for this user id (from setup and this test method)
+			ShoppingList.find({userId: uid}).sort('_id').exec(function(err, lists) {
+				assert.ok(!err);
+				assert.equal(2, lists.length);
+				assert.equal(uid, String(lists[0].userId));
+				assert.equal(uid, String(lists[1].userId));
+				done();
+			});
+		});
+	});
+
+	test('uid is required', function() {
+		var ts = new Date().getTime(), name = 'name' + ts,
+			sl = new ShoppingList({name:name});
+		sl.save(function(err) {
+			assert.ok(err);
 		});
 	});
 
