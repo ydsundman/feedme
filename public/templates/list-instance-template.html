@@ -1,12 +1,13 @@
-<h5><%= list.name %></h5>
-<form class="well form-search">
-	<input type="text" class="input-xlarge search-query" name="item-name"/>
-	<button class="btn btn-primary actionAddItem">Add Item</button>
-</form>
-<table class="table table-bordered table-condensed">
-	<tbody id="shopping-list-items">
-	<% _.each(list.items, function(item) { %>
-		<tr><td><%= item.name %></td></tr>
-	<% }); %>
-	</tbody>
-</table>
+<div class="well shoppingList">
+	<ul class="nav nav-tabs nav-stacked">
+		<li>
+			<form class="input-append">
+				<input type="text" placeholder="Add item…">
+				<button id="addNewShoppingItem" class="btn actionAddItem">Add Item</button>
+			</form>
+		</li>
+		<% _.each(list.items, function(item) { %>
+		<li><a><%= item.name %></a></li>
+		<% }); %>
+	</ul>
+</div>

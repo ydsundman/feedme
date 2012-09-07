@@ -11,7 +11,7 @@
 	], function($, _, Backbone, ShoppingList, instanceTemplate, itemTemplate) {
 
 		var ListView = Backbone.View.extend({
-			el:'#main2',
+			el:'#main',
 
 			initialize: function() {
 				console.log('ListView.initialize()');
@@ -25,7 +25,7 @@
 			},
 
 			events:{
-				'click button':'addNew'
+				'click #addNewShoppingItem':'addNew'
 			},
 
 			selectItem:function(id) {
@@ -39,17 +39,17 @@
 			addNew: function(event) {
 				console.log('Add new item');
 				event.preventDefault();
-				var that = this, target = this.$('input'), val = target.val();
+				var li = this.$('li.active'), target = li.find('input'), val = target.val();
 				this.list.get('items').push({name:val});
-				this.$('tbody').append(this.itemTemplate({item:{name:val}}));
-				this.list.save({}, {success:function() {
+				li.find('ul').append(this.itemTemplate({item:{name:val}}));
+				this.list.save({}, {success:function(data) {
 					console.log('list saved!');
 				}});
 				target.val('');
 			},
 
 			render: function() {
-				this.$el.html(this.template({list:this.list.toJSON()}));
+				this.$el.find('li.active').append(this.template({list:this.list.toJSON()}));
 			}
 		});
 

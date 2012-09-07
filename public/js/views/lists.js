@@ -28,32 +28,48 @@
 				this.rowTemplate = _.template(rowTemplate);
 				this.router = this.options.router;
 				this.lists = new Lists();
-				this.lists.bind('add', this.renderItem, this);
+				this.lists.bind('add', this.addNewShoppingList, this);
 			},
 
 			events:{
-				'click a':'selectList',
-				'click button':'addNew'
+				'click a.shoppingListName':'selectList',
+				'click #addNewShoppingList':'addNew'
+			},
+
+			addNewShoppingList:function(list) {
+				var markup = this.rowTemplate({list:list.toJSON()});
+				this.$('#shoppingLists').prepend(markup);
+				this.$('li[data-id=' + list.get('_id') +'] a').click();
 			},
 
 			renderItem:function(list) {
 				var markup = this.rowTemplate({list:list.toJSON()});
-				this.$('table tbody').append(markup);
+				this.$('#shoppingLists').append(markup);
 			},
 
 			selectList:function(event) {
-				var a = $(event.target), id = a.parent().attr('data-id');
-				this.markListAsSelected(a.parent());
-				this.router.navigate('list/' + id, true);
+				var a = $(event.target), list = a.parent(), id = list.attr('data-id');
+				if(this.currentListIsSelected(list)) {
+					this.clearListSelection(list.parent());
+					this.router.navigate('', true);
+				} else {
+					this.clearListSelection(list.parent());
+					this.markListAsSelected(list);
+					this.router.navigate('list/' + id, true);
+				}
 			},
 
-			markListAsSelected:function(listItem) {
-				this.clearListSelection(listItem.parent());
-				listItem.addClass('active');
+			currentListIsSelected:function(list) {
+				return list.hasClass('active');
 			},
 
-			clearListSelection:function(list) {
-				list.children().removeClass('active');
+			markListAsSelected:function(list) {
+				list.addClass('active');
+			},
+
+			clearListSelection:function(lists) {
+				lists.children().removeClass('active');
+				lists.children().find('.shoppingList').remove();
 			},
 
 			addNew:function(event) {
