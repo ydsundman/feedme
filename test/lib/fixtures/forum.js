@@ -20,4 +20,4 @@
 	exports.destroy = function(req, res) {
 		res.send('destroy forum ' + req.params.id);
 	};
-})();
+}());
