@@ -32,7 +32,7 @@
 			},
 
 			events:{
-				'click td':'selectList',
+				'click a':'selectList',
 				'click button':'addNew'
 			},
 
@@ -42,8 +42,18 @@
 			},
 
 			selectList:function(event) {
-				var id = $(event.target).attr('data-id');
+				var a = $(event.target), id = a.parent().attr('data-id');
+				this.markListAsSelected(a.parent());
 				this.router.navigate('list/' + id, true);
+			},
+
+			markListAsSelected:function(listItem) {
+				this.clearListSelection(listItem.parent());
+				listItem.addClass('active');
+			},
+
+			clearListSelection:function(list) {
+				list.children().removeClass('active');
 			},
 
 			addNew:function(event) {

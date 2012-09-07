@@ -2,12 +2,10 @@
 	<input type="text" class="input-xlarge search-query" name="list-name"/>
 	<button class="btn btn-primary actionAddList">Add List</button>
 </form>
-<table class="table table-bordered table-condensed">
-	<tbody>
+<ul class="nav nav-pills nav-stacked">
 	<% _.each(lists, function(list) { %>
 
-		<tr><td data-id="<%= list.get('_id') %>"><%= list.get('name') %></td></tr>
+	<li data-id="<%= list.get('_id') %>"><a><%= list.get('name') %></a></li>
 
 	<% }); %>
-	</tbody>
-</table>
+</ul>
