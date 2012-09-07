@@ -18,11 +18,11 @@ suite('configuration settings', function() {
 
 	test('mongoDbUrls should be correct depending on env', function() {
 		process.env.NODE_ENV = 'production';
-		assert.equal('mongodb://sl:sl@ds033267.mongolab.com:33267/sl', require('../../lib/config')().db_url);
+		assert.equal(process.env.FEEDME_MONGO_PROD, require('../../lib/config')().db_url);
 		process.env.NODE_ENV = 'development';
-		assert.equal('mongodb://test:test@ds035997.mongolab.com:35997/sl-dev', require('../../lib/config')().db_url);
+		assert.equal(process.env.FEEDME_MONGO_DEV, require('../../lib/config')().db_url);
 		process.env.NODE_ENV = 'test';
-		assert.equal('mongodb://test:test@ds033267.mongolab.com:33267/yds-test', require('../../lib/config')().db_url);
+		assert.equal(process.env.FEEDME_MONGO_TEST, require('../../lib/config')().db_url);
 	});
 
 });
