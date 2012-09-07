@@ -13,11 +13,6 @@
 	});
 
 	require(['jquery', 'router', 'backbone', 'utils/setup'], function($, Router, Backbone, setup) {
-//		$(document).ajaxError( function(e, xhr, options){
-//			if (xhr.status === 401) {
-//				location.replace('/login');
-//			}
-//		});
 		setup();
 		Router.initialize();
 		Backbone.history.start();
