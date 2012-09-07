@@ -17,4 +17,4 @@
 		Router.initialize();
 		Backbone.history.start();
 	});
-})();
+}());

@@ -8,7 +8,11 @@ module.exports = function(grunt) {
 			files:['test/**/*.js']
 		},
 		lint:{
-			files:['grunt.js', 'lib/**/*.js', 'routes/**/*.js', 'views/**/*.js', 'test/**/*.js']
+			files:[
+				'grunt.js',
+				'lib/**/*.js', 'routes/**/*.js', 'views/**/*.js', 'test/**/*.js',
+				'public/js/collections/**/*.js', 'public/js/models/**/*.js', 'public/js/utils/**/*.js', 'public/js/views/**/*.js', 'public/js/main.js', 'public/js/router.js'
+			]
 		},
 		watch:{
 			files:'<config:lint.files>',
@@ -35,25 +39,16 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', 'lint');
+	grunt.registerTask('default', 'lint npm-test');
 
-//	var npm = require('npm');
-//	console.log('npm.test:\n', npm.test);
-//	grunt.registerTask('npm-test', 'Runs npm test', function() {
-//		npm.load({}, function(err) {
-//			console.log('err:', err);
-//			npm.test();
-//		});
-//		grunt.utils.spawn({cmd:'npm', args: ['test']}, function(err, res, code) {
-//			grunt.log.writeln("err: " + err);
-//			grunt.log.writeln("res: " + res);
-//			grunt.log.writeln("code: " + code);
-//		});
-//		if (arguments.length === 0) {
-//			grunt.log.writeln(this.name + ", no args");
-//		} else {
-//			grunt.log.writeln(this.name + ", " + arg1 + " " + arg2);
-//		}
-//	});
+	var npm = require('npm');
+	grunt.registerTask('npm-test', 'Runs npm test', function() {
+		var done = this.async();
+		npm.load({}, function(err, npm) {
+			npm.commands.test([], function(err, s) {
+				done();
+			});
+		});
+	});
 
 };

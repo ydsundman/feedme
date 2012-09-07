@@ -1,4 +1,4 @@
-/*global define */
+/*global define, document, location */
 (function() {
 	"use strict";
 	define([
@@ -13,4 +13,4 @@
 			});
 		};
 	});
-})();
+}());

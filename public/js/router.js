@@ -29,4 +29,4 @@
 			initialize:initialize
 		};
 	});
-})();
+}());
