@@ -39,9 +39,9 @@
 			addNew: function(event) {
 				console.log('Add new item');
 				event.preventDefault();
-				var li = this.$('li.active'), target = li.find('input'), val = target.val();
+				var shoppingList = this.$el.find('#aShoppingList'), target = shoppingList.find('input'), val = target.val();
 				this.list.get('items').push({name:val});
-				li.find('ul').append(this.itemTemplate({item:{name:val}}));
+				shoppingList.append(this.itemTemplate({item:{name:val}}));
 				this.list.save({}, {success:function(data) {
 					console.log('list saved!');
 				}});
@@ -49,7 +49,7 @@
 			},
 
 			render: function() {
-				this.$el.find('li.active').append(this.template({list:this.list.toJSON()}));
+				this.$el.html(this.template({list:this.list.toJSON()}));
 			}
 		});
 
