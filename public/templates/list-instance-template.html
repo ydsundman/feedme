@@ -1,11 +1,9 @@
-<div class="well shoppingList">
+<div class="shoppingList">
+		<form class="input-append">
+			<input type="text" placeholder="Add item…">
+			<button id="addNewShoppingItem" class="btn actionAddItem">Add Item</button>
+		</form>
 	<ul class="nav nav-tabs nav-stacked" id="aShoppingList">
-		<li>
-			<form class="input-append">
-				<input type="text" placeholder="Add item…">
-				<button id="addNewShoppingItem" class="btn actionAddItem">Add Item</button>
-			</form>
-		</li>
 		<% _.each(list.items, function(item) { %>
 		<li><a><%= item.name %></a></li>
 		<% }); %>

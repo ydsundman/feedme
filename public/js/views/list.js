@@ -39,7 +39,7 @@
 			addNew: function(event) {
 				console.log('Add new item');
 				event.preventDefault();
-				var shoppingList = this.$el.find('#aShoppingList'), target = shoppingList.find('input'), val = target.val();
+				var shoppingList = this.$el.find('#aShoppingList'), target = shoppingList.parent().find('input'), val = target.val();
 				this.list.get('items').push({name:val});
 				shoppingList.append(this.itemTemplate({item:{name:val}}));
 				this.list.save({}, {success:function(data) {
