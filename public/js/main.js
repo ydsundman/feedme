@@ -7,7 +7,8 @@
 			underscore:'libs/underscore/underscore',
 			backbone:'libs/backbone/backbone',
 			text:'libs/require/text',
-			templates:'../templates'
+			templates:'../templates',
+			jqueryui:'libs/jquery-ui-1.8.23.custom.min'
 		},
 		urlArgs:"bust=" + (new Date()).getTime()
 	});

@@ -7,7 +7,8 @@
 		'backbone',
 		'models/shopping-list',
 		'text!templates/list-instance-template.html',
-		'text!templates/item-template.html'
+		'text!templates/item-template.html',
+		'jqueryui'
 	], function($, _, Backbone, ShoppingList, instanceTemplate, itemTemplate) {
 
 		var ListView = Backbone.View.extend({
@@ -49,7 +50,20 @@
 			},
 
 			render: function() {
+				var that = this;
 				this.$el.html(this.template({list:this.list.toJSON()}));
+				this.$el.find('ul').sortable({
+					axis: 'y',
+					containment:'parent',
+					update:function() {
+						var lis = $(this).find('li');
+						console.log('list updated!');
+						$.each(that.list.get('items'), function(index, item) {
+							item.name = $(lis[index]).text();
+						});
+						that.list.save();
+					}
+				});
 			}
 		});
 
