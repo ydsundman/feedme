@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - 0.8
+
+script:
+  - "grunt travis"
+
+services:
+  - mongodb
+
+before_script:
+  - mongo mydb_test --eval 'db.addUser("travis", "test");'

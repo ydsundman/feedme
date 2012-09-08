@@ -51,4 +51,6 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask('travis', 'lint npm-test');
+
 };
