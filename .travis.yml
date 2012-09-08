@@ -11,3 +11,7 @@ services:
 
 before_script:
   - mongo mydb_test --eval 'db.addUser("travis", "test");'
+
+env:
+  - DB=mongodb
+  - TRAVIS_DB=true

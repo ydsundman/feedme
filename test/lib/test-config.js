@@ -27,8 +27,8 @@ suite('configuration settings', function() {
 
 	test('mongoDbUrl should be setup correctly for NODE_ENV=test and TRAVIS=true', function() {
 		process.env.NODE_ENV = 'test';
-		process.env.TRAVIS = 'true';
-		assert.equal('mongodb://travis:test@127.0.0.1/sl', require('../../lib/config')().db_url);
+		process.env.TRAVIS_DB = 'true';
+		assert.equal('mongodb://travis:test@127.0.0.1/mydb_test', require('../../lib/config')().db_url);
 	});
 
 });
