@@ -39,10 +39,7 @@
 
 			selectList:function(event) {
 				var a = $(event.target), list = a.parent(), id = list.attr('data-id');
-				if(this.currentListIsSelected(list)) {
-					this.clearListSelection(list.parent());
-					this.router.navigate('', true);
-				} else {
+				if(!this.currentListIsSelected(list)) {
 					this.clearListSelection(list.parent());
 					this.markListAsSelected(list);
 					this.router.navigate('list/' + id, true);
