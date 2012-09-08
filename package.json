@@ -17,6 +17,7 @@
 		"mongodb":"1.x"
 	},
 	"devDependencies":{
+		"npm":"*",
 		"async":"*",
 		"mocha":"*",
 		"should":"*",

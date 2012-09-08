@@ -38,9 +38,6 @@ module.exports = function(grunt) {
 		}
 	});
 
-	// Default task.
-	grunt.registerTask('default', 'lint npm-test');
-
 	var npm = require('npm');
 	grunt.registerTask('npm-test', 'Runs npm test', function() {
 		var done = this.async();
@@ -51,6 +48,7 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask('default', 'lint npm-test');
 	grunt.registerTask('travis', 'lint npm-test');
 
 };
