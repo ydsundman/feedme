@@ -1,8 +1,16 @@
 /*global define */
 (function() {
 	"use strict";
-	define(['jquery','underscore','backbone','views/lists','views/list'],
-		function($, _, Backbone, ListsView, ListView) {
+	define([
+		'jquery',
+		'underscore',
+		'backbone',
+		'views/lists-navigation',
+		'views/add-list',
+		'views/list',
+		'collections/lists'
+],
+		function($, _, Backbone, ListsNavigationView, ListCreationView, ListView, Lists) {
 		var AppRouter = Backbone.Router.extend({
 
 			routes:{
@@ -15,10 +23,18 @@
 			},
 
 			initialize: function() {
+				var that = this;
 				console.log('AppRouter.initialize()');
-				this.listsView = new ListsView({router:this});
+				this.lists = new Lists();
+				this.listsNavigationView = new ListsNavigationView({router:this});
+				this.listCreationView = new ListCreationView({router:this});
 				this.listView = new ListView();
-				this.listsView.render();
+				this.listCreationView.render();
+				this.lists.fetch({
+					success:function() {
+						that.listsNavigationView.render();
+					}
+				});
 			}
 		});
 
