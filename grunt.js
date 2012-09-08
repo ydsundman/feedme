@@ -43,7 +43,10 @@ module.exports = function(grunt) {
 		var done = this.async();
 		npm.load({}, function(err, npm) {
 			npm.commands.test([], function(err, s) {
-				done(err);
+				if (err) {
+					process.exit(99);
+				}
+				done();
 			});
 		});
 	});
