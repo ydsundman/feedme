@@ -3,10 +3,11 @@ extends layout
 block content
 	.container
 		.row
-			#addList.span9
+			#addList.span12
 		.row
-			#navigation.span3
-			#main.span6
+			#mainContent.span12
+					#navigation
+					#main
 
 block end-of-body
 	script(data-main='js/main', src='js/libs/require/require-jquery.js')
