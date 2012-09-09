@@ -17,6 +17,7 @@ suite('configuration settings', function() {
 	});
 
 	test('mongoDbUrls should be correct depending on env', function() {
+		process.env.TRAVIS_DB = 'false';
 		process.env.NODE_ENV = 'production';
 		assert.equal(process.env.FEEDME_MONGO_PROD, require('../../lib/config')().db_url);
 		process.env.NODE_ENV = 'development';
