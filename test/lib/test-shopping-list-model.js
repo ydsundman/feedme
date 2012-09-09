@@ -21,25 +21,33 @@ suite('test ShoppingList model', function() {
 	setup(function(done) {
 		async.waterfall([
 			function(cb) {
+				console.log('Removing all users');
 				User.remove({}, function(err) {
+					console.log('done, err: ' + err);
 					cb(err);
 				});
 			},
 			function(cb) {
+				console.log('Removing all shopping lists');
 				ShoppingList.remove({}, function(err) {
+					console.log('done, err: ' + err);
 					cb(err);
 				});
 			},
 			function(cb) {
+				console.log('creating test user');
 				var ts = new Date().getTime(), username = 'shopping-list-owner' + ts, email = username + '@yds.se';
 				var user = new User({username:username, email:email, password:'xxx'});
 				user.save(function(err) {
+					console.log('done, err: ' + err);
 					uid = user._id;
 					cb(err);
 				});
 			},
 			function(cb) {
+				console.log('creating test list');
 				addTestList(function(err, sl) {
+					console.log('done, err: ' + err);
 					list = sl;
 					cb(err);
 				});
