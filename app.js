@@ -7,7 +7,8 @@
 		http = require('http'),
 		util = require('util'),
 		path = require('path'),
-		resource = require('./lib/resource');
+		resource = require('./lib/resource'),
+		sass = require('node-sass');
 
 	var app = module.exports = express();
 
@@ -25,6 +26,7 @@
 		app.use(express.cookieParser());
 		app.use(express.session({ secret:'your secret here' }));
 		app.use(app.router);
+		app.use(sass.middleware({src: path.join(__dirname, 'scss'), dest: path.join(__dirname, 'public'), debug: false}));
 		app.use(express.static(path.join(__dirname, 'public')));
 	});
 
