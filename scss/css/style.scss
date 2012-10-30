@@ -1,25 +1,51 @@
 @media (max-width: 767px) {
 	body {
-		padding-right: 0px;
-		padding-left: 0px;
-	}
-}
-@media (min-width: 768px) {
-	#navigation {
-		width: 30%;
-	}
-	#main {
-		width: 70%;
+		padding-right: 0;
+		padding-left: 0;
 	}
 	#navigation, #main {
 		float: left;
 	}
-	.shoppingList {
+	#mainContent {
+		float: left;
+	}
+}
+@media (min-width: 768px) {
+	#navigation, #main {
+		float: left;
+	}
+}
+#navigation {
+	li.active .shoppingListName{
+		background-color: #f1f2f3;
 	}
 }
 .shoppingList {
-	padding: 10px;
+	padding: 0;
 }
-#navigation, #main {
-	background-color: #ffffff;
+#navigation {
+    background-color: #fff;
+}
+
+#mainContent {
+	background-color: #f1f2f3;
+	border-top:1px solid #ddd;
+	border-right:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	border-radius: 4px 4px 4px 4px;
+}
+
+#main {
+	background-color: #f1f2f3;
+	margin-left:20px;
+}
+
+#shoppingLists {
+    background-color: #fff;
+	margin: -1px 0;
+	padding-bottom: 5px;
+}
+
+#aShoppingList a{
+	background-color: #fff;
 }

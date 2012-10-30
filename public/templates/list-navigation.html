@@ -1,4 +1,4 @@
-<ul id="shoppingLists" class="nav nav-pills nav-stacked">
+<ul id="shoppingLists" class="nav nav-tabs">
 	<% _.each(lists, function(list) { %>
 
 	<li data-id="<%= list.get('_id') %>"><a class="shoppingListName"><%= list.get('name') %></a></li>
