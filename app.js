@@ -26,13 +26,13 @@
 		app.use(express.cookieParser());
 		app.use(express.session({ secret:'your secret here' }));
 		app.use(app.router);
-		app.use(sass.middleware({src: path.join(__dirname, 'scss'), dest: path.join(__dirname, 'public'), debug: false}));
 		app.use(express.static(path.join(__dirname, 'public')));
 	});
 
 	app.configure('development', function() {
 		app.use(express.errorHandler());
 		app.use(express.logger('dev'));
+		app.use(sass.middleware({src: path.join(__dirname, 'scss'), dest: path.join(__dirname, 'public'), debug: false}));
 	});
 
 	app.configure('production', function() {

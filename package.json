@@ -15,7 +15,8 @@
 		"jade": "*",
 		"mongoose":"3.x",
 		"mongodb":"1.x",
-		"node-sass": "*"
+		"node-sass": "*",
+		"grunt-sass": "*"
 	},
 	"devDependencies":{
 		"npm":"*",

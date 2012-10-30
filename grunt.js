@@ -35,6 +35,13 @@ module.exports = function(grunt) {
 			globals:{
 				exports:true
 			}
+		},
+		sass: {
+			compile: {
+				files: {
+					'public/css/style.css': 'scss/css/style.scss'
+				}
+			}
 		}
 	});
 
@@ -50,6 +57,8 @@ module.exports = function(grunt) {
 			});
 		});
 	});
+
+	grunt.loadNpmTasks('grunt-sass');
 
 	grunt.registerTask('default', 'lint npm-test');
 	grunt.registerTask('travis', 'lint npm-test');

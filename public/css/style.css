@@ -1,0 +1,14 @@
+@media (max-width: 767px) {
+  body {
+    padding-right: 0px;
+    padding-left: 0px; } }
+@media (min-width: 768px) {
+  #navigation {
+    width: 30%; }  #main {
+    width: 70%; }  #navigation, #main {
+    float: left; } }
+.shoppingList {
+  padding: 10px; }
+
+#navigation, #main {
+  background-color: #ffffff; }
